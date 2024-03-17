@@ -1,6 +1,6 @@
 { self, ... }: {
-  perSystem = { config, self', inputs', pkgs, lib, system, crane
-    , systemCommonRust, subnix, devnetTools, cosmosTools, bashTools, centauri
+  perSystem = { config, self', inputs', pkgs, lib, system
+    , devnetTools, cosmosTools, bashTools, centauri
     , ... }:
 
     let
