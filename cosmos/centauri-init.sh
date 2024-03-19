@@ -3,12 +3,14 @@ parser_definition() {
     setup REST help:usage -- "Usage: example.sh [options]... [arguments]..."
     msg -- 'Options:'
     option FRESH -f --fresh on:true -- "takes one optional argument"
+    option PICA_CHANNEL_ID -p --pica-channel-id on:1 -- "takes one optional argument"
 }
 
 eval "$(getoptions parser_definition) exit 1"
 
 env
 
+PICA_CHANNEL_ID="''${PICA_CHANNEL_ID:=1}"
 
 if test "$FRESH" != "false" && test -d "$CHAIN_DATA" 
 then
