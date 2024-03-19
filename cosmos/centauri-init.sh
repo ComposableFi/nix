@@ -75,7 +75,7 @@ then
     sed -i "s/max_tx_bytes = 1048576/max_tx_bytes = 10485760/" "$CHAIN_DATA/config/config.toml"
 
     echo "$ALICE" | centaurid keys add ALICE --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "bleak slush nose opinion document sample embark couple cabbage soccer cage slow father witness canyon ring distance hub denial topic great beyond actress problem" | centaurid keys add bob --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
+    echo "$BOB" | centaurid keys add BOB --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
     echo "$VAL_MNEMONIC_1" | centaurid keys add "VAL_MNEMONIC_1" --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
     echo "notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius" | centaurid keys add test1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
     echo "quality vacuum heart guard buzz spike sight swarm shove special gym robust assume sudden deposit grid alcohol choice devote leader tilt noodle tide penalty" | centaurid keys add test2 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
