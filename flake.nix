@@ -32,7 +32,7 @@
       url = "github:strangelove-ventures/bech32cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    cvm = { url = "github:ComposableFi/cvm"; };
+    composable-vm = { url = "github:ComposableFi/composable-vm"; };
     networks = { url = "github:ComposableFi/networks"; };
 
     eth-pos-devnet-src = {
@@ -45,9 +45,10 @@
   outputs = inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        ./cosmos/composable.nix
+        ./args.nix
+        ./cosmos/centauri.nix
       ];
-      systems = [ "x86_64-linux" "aarch64-darwin" ];
+      systems = [ "x86_64-linux" ];
       perSystem = { config, self', inputs', ... }: {
         # Per-system attributes can be defined here. The self' and inputs'
         # module parameters provide easy access to attributes of the same
