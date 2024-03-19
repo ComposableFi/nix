@@ -58,7 +58,7 @@
 
         text = ''
           ${bashTools.export pkgs.networksLib.pica.devnet}
-          VALIDATOR_KEY=$("$BINARY" keys show ${cosmosTools.validators.moniker} --keyring-backend=test --keyring-dir="$KEYRING_TEST" --output=json | jq .address -r )
+          VALIDATOR_KEY=$("$BINARY" keys show "VAL_MNEMONIC_1" --keyring-backend=test --keyring-dir="$KEYRING_TEST" --output=json | jq .address -r )
 
           "$BINARY" tx gov submit-proposal ${ics10-grandpa-cw-proposal}/ics10_grandpa_cw.wasm.json --from="$VALIDATOR_KEY"  --keyring-backend test --gas 9021526220000 --fees 92000000166$FEE --keyring-dir "$KEYRING_TEST" --chain-id "$CHAIN_ID" --yes --home "$CHAIN_DATA" --output json
           sleep $BLOCK_SECONDS
@@ -209,32 +209,19 @@
 
       centaurid-gen = pkgs.writeShellApplication {
         name = "centaurid-gen";
-        runtimeInputs = devnetTools.withBaseContainerTools
-          ++ [ centaurid pkgs.jq pkgs.dasel ];
         text = ''
-          ${bashTools.export pkgs.networksLib.devnet.mnemonics}
-          ${bashTools.export pkgs.networksLib.pica.devnet}
 
-          if test "''${1-reuse}" == "fresh"; then
-             echo "removing data dir"
-             rm --force --recursive "$CHAIN_DATA"
-          fi
-          PICA_CHANNEL_ID=''${2-1}
 
           if [[ ! -d "$CHAIN_DATA" ]]; then
             mkdir --parents "$CHAIN_DATA"
             mkdir --parents "$CHAIN_DATA/config/gentx"
             mkdir --parents "$KEYRING_TEST"
-            echo "${validator-mnemonic}" | centaurid init "$CHAIN_ID" --chain-id "$CHAIN_ID" --default-denom ${native_denom} --home "$CHAIN_DATA"  --recover
+            echo "$VAL_MNEMONIC_1" | centaurid init "$CHAIN_ID" --chain-id "$CHAIN_ID" --default-denom "$FEE" --home "$CHAIN_DATA"  --recover
 
             function jq-genesis() {
               jq -r  "$1"  > "$CHAIN_DATA/config/genesis-update.json"  < "$CHAIN_DATA/config/genesis.json"
               mv --force "$CHAIN_DATA/config/genesis-update.json" "$CHAIN_DATA/config/genesis.json"
             }
-
-            jq-genesis '.consensus_params.block.max_gas |= "-1"'
-            jq-genesis '.app_state.gov.params.voting_period |= "${gov.voting_period}"'
-            jq-genesis '.app_state.gov.params.max_deposit_period |= "${gov.max_deposit_period}"'
 
            function pica_setup() {
               jq-genesis '.app_state.transmiddleware.token_infos[0].ibc_denom |= "ibc/632DBFDB06584976F1351A66E873BF0F7A19FAA083425FEC9890C90993E5F0A4"'
@@ -281,9 +268,9 @@
             sed -i "s/max_header_bytes = 1048576/max_header_bytes = 10485760/" "$CHAIN_DATA/config/config.toml"
             sed -i "s/max_tx_bytes = 1048576/max_tx_bytes = 10485760/" "$CHAIN_DATA/config/config.toml"
 
-            echo "document prefer nurse marriage flavor cheese west when knee drink sorry minimum thunder tilt cherry behave cute stove elder couch badge gown coral expire" | centaurid keys add alice --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
+            echo "$ALICE" | centaurid keys add ALICE --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
             echo "bleak slush nose opinion document sample embark couple cabbage soccer cage slow father witness canyon ring distance hub denial topic great beyond actress problem" | centaurid keys add bob --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-            echo "${validator-mnemonic}" | centaurid keys add ${cosmosTools.validators.moniker} --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
+            echo "$VAL_MNEMONIC_1" | centaurid keys add "VAL_MNEMONIC_1" --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
             echo "notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius" | centaurid keys add test1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
             echo "quality vacuum heart guard buzz spike sight swarm shove special gym robust assume sudden deposit grid alcohol choice devote leader tilt noodle tide penalty" | centaurid keys add test2 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
             echo "$RLY_MNEMONIC_1" | centaurid keys add relayer1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
@@ -304,17 +291,18 @@
             add-genesis-account "$("$BINARY" keys show relayer4 --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
             add-genesis-account "$("$BINARY" keys show APPLICATION1 --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
             add-genesis-account "$("$BINARY" keys show APPLICATION2 --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
-            add-genesis-account "$("$BINARY" keys show ${cosmosTools.validators.moniker} --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
+            add-genesis-account "$("$BINARY" keys show "VAL_MNEMONIC_1" --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
 
             add-genesis-account centauri1zr4ng42laatyh9zx238n20r74spcrlct6jsqaw
             add-genesis-account ${cosmosTools.mantis.centauri}
             add-genesis-account centauri1cyyzpxplxdzkeea7kwsydadg87357qnamvg3y3
             add-genesis-account centauri18s5lynnmx37hq4wlrw9gdn68sg2uxp5ry85k7d
-            centaurid --keyring-backend test --keyring-dir "$KEYRING_TEST" --home "$CHAIN_DATA" gentx ${cosmosTools.validators.moniker} "250000000000000ppica" --chain-id="$CHAIN_ID" --amount="250000000000000ppica"
+            centaurid --keyring-backend test --keyring-dir "$KEYRING_TEST" --home "$CHAIN_DATA" gentx "VAL_MNEMONIC_1" "250000000000000ppica" --chain-id="$CHAIN_ID" --amount="250000000000000ppica"
             centaurid collect-gentxs --home "$CHAIN_DATA"  --gentx-dir "$CHAIN_DATA/config/gentx"
           else
             echo "WARNING: REUSING EXISTING DATA FOLDER"
           fi
+
           centaurid start --rpc.unsafe --rpc.laddr tcp://0.0.0.0:26657 --pruning=nothing --minimum-gas-prices=0.001ppica --home="$CHAIN_DATA" --db_dir="$CHAIN_DATA/data" ${log} --with-tendermint=true --transport=socket --trace-store=$CHAIN_DATA/kvstore.log --grpc.address=0.0.0.0:${
             builtins.toString pkgs.networksLib.pica.devnet.GRPCPORT
           } --grpc.enable=true --grpc-web.enable=false --api.enable=true --cpu-profile=$CHAIN_DATA/cpu-profile.log --p2p.pex=false --p2p.upnp=false

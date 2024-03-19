@@ -25,8 +25,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     cosmos = {
       url =
-        "github:informalsystems/cosmos.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+        "github:informalsystems/cosmos.nix/dz/38";
     };
     bech32cli = {
       url = "github:strangelove-ventures/bech32cli";

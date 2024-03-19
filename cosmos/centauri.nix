@@ -1,5 +1,5 @@
 { self, ... }: {
-  perSystem = { config, self', inputs', system, pkgs, ... }: {
+  perSystem = { config, self', inputs', system, pkgs, runtimeInputs, ... }: {
     packages = 
         let 
           networks = pkgs.networksLib.networks;
@@ -8,9 +8,7 @@
         {
         centauri-init = pkgs.writeShellApplication {
           name = "centauri-init";
-          runtimeInputs = with pkgs; [
-            pkgs.getoptions
-          ];
+          runtimeInputs = runtimeInputs;
 
           text = ''
           ${sh.export networks.pica.devnet}
