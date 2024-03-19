@@ -46,6 +46,7 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         ./args.nix
+        ./devShells.nix
         ./cosmos/centauri.nix
       ];
       systems = [ "x86_64-linux" ];

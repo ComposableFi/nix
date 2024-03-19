@@ -15,20 +15,7 @@
           text = ''
           ${sh.export networks.pica.devnet}
           ${sh.export networks.devnet.mnemonics}
-
-          parser_definition() {
-            setup   REST help:usage -- "Usage: example.sh [options]... [arguments]..."
-            msg --  'Options:'
-            option  FRESH  -f --fresh on:true  -- "takes one optional argument"
-          }
-          eval "$(getoptions parser_definition) exit 1"
-          env
-          
-          if test "$FRESH" != "false"
-          then
-            echo ${networks.pica.devnet.CHAIN_DATA}
-            rm --force --recursive ${networks.pica.devnet.CHAIN_DATA}
-          fi
+          ${builtins.readFile ./centauri-init.sh}
           '';
         };
     };
