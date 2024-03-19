@@ -21,23 +21,6 @@ in {
         availability = { restart = chain-restart; };
       };
 
-      neutron-init = {
-        command = self'.packages.neutron-gen;
-        log_location = "${devnet-root-directory}/neutron-init.log";
-        availability = { restart = chain-restart; };
-      };
-
-      neutron = {
-        command = self'.packages.neutron-start;
-        readiness_probe.http_get = {
-          host = "127.0.0.1";
-          port = networks.neutron.devnet.CONSENSUS_RPC_PORT;
-        };
-        log_location = "${devnet-root-directory}/neutron-start.log";
-        availability = { restart = chain-restart; };
-        depends_on."neutron-init".condition = "process_completed_successfully";
-      };
-
       cosmos-hub-init = {
         command = self'.packages.cosmos-hub-gen;
         log_location = "${devnet-root-directory}/cosmos-hub-init.log";
