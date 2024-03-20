@@ -17,7 +17,6 @@
           osmosis-init = pkgs.writeShellApplication {
             name = "osmosis-init";
             runtimeInputs = runtimeInputs;
-
             text = ''
               ${sh.export networks.osmosis.devnet}
               ${sh.export networks.devnet.mnemonics}
