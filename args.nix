@@ -9,14 +9,18 @@
   }: {
     _module.args = {
       runtimeInputs = with pkgs; [
-        getoptions
-        jq
-        dasel
+        bun
+        centauri
         cw-cvm-executor
         cw-cvm-outpost
-        centauri
-        osmosis
         cw-mantis-order
+        dasel
+        getoptions
+        gex
+        grpcurl
+        jq
+        nix-tree
+        osmosis
       ];
       pkgs = import self.inputs.nixpkgs {
         inherit system;
