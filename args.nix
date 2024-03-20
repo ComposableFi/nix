@@ -15,7 +15,8 @@
         cw-cvm-executor
         cw-cvm-outpost
         centauri
-        # cw-mantis-order
+        osmosis
+        cw-mantis-order
       ];
       pkgs = import self.inputs.nixpkgs {
         inherit system;
@@ -27,7 +28,7 @@
           (final: prev: {
             cw-cvm-executor = self.inputs.composable-vm.packages."${system}".cw-cvm-executor;
             cw-cvm-outpost = self.inputs.composable-vm.packages."${system}".cw-cvm-outpost;
-            # cw-mantis-order = self.inputs.composable-vm.packages."${system}".cw-mantis-order;
+            cw-mantis-order = self.inputs.composable-vm.packages."${system}".cw-mantis-order;
           })
         ];
       };

@@ -15,7 +15,6 @@
       centauri-init = pkgs.writeShellApplication {
         name = "centauri-init";
         runtimeInputs = runtimeInputs;
-
         text = ''
           ${sh.export networks.pica.devnet}
           ${sh.export networks.devnet.mnemonics}
