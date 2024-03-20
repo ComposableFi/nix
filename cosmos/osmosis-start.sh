@@ -1,1 +1,1 @@
- osmosisd start --home "$CHAIN_DATA" --rpc.unsafe --pruning=nothing --p2p.pex false --p2p.upnp false --p2p.seed_mode true ${log} --minimum-gas-prices=0.00001uosmo
+osmosisd start --home "$CHAIN_DATA" --rpc.unsafe --pruning=nothing --p2p.pex false --p2p.upnp false --p2p.seed_mode true --minimum-gas-prices=0.00001$FEE --trace --log_level=trace
