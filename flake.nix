@@ -48,6 +48,7 @@
         ./formatter.nix
         ./packages.nix
         ./cosmos/centauri.nix
+        ./cosmos/hermes.nix
         ./cosmos/osmosis.nix
       ];
       systems = ["x86_64-linux"];
