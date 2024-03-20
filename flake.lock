@@ -2665,11 +2665,11 @@
         "nixpkgs": "nixpkgs_12"
       },
       "locked": {
-        "lastModified": 1710888234,
-        "narHash": "sha256-CkS8ZPws58Fd+07xUlY/lFGqrbYx919JKe5FaTseKjI=",
+        "lastModified": 1710934499,
+        "narHash": "sha256-ZiVcO9t0dOaHaRje2f7qBE5hMBxlpvthxXuoN+cSYaY=",
         "owner": "ComposableFi",
         "repo": "networks",
-        "rev": "7151aa252f7193c6b91cbfdece0f7a0bce97740f",
+        "rev": "a91fd25cfc12132d9feb2a892adb3c32b1a05b40",
         "type": "github"
       },
       "original": {

@@ -1,75 +1,4 @@
-{ self, ... }: {
-  perSystem = { config, self', inputs', pkgs, lib, system
-    , devnetTools, cosmosTools, bashTools, centauri
-    , ... }:
 
-    let
-      log = " --log_level trace --trace ";
-      devnet-root-directory = cosmosTools.devnet-root-directory;
-      validator-mnemonic = cosmosTools.validators.mnemonic;
-      gov = {
-        account = "centauri10d07y265gmmuvt4z0w9aw880jnsr700j7g7ejq";
-        voting_period = "20s";
-        max_deposit_period = "10s";
-      };
-      native_denom = "ppica";
-      name = "centaurid";
-      cosmosLib = self.inputs.cosmos.lib {
-        inherit pkgs;
-        cosmwasm-check = self.inputs.cosmos.packages."${system}".cosmwasm-check;
-      };
-
-      centaurid = self.inputs.composable-cosmos.packages."${system}".centaurid;
-
-      ibc-lightclients-wasm-v1-msg-push-new-wasm-code = code: {
-        "messages" = [{
-          "@type" = "/ibc.lightclients.wasm.v1.MsgPushNewWasmCode";
-          "signer" = "${gov.account}";
-          "code" = code;
-        }];
-        "deposit" = "5000000000000000ppica";
-        "metadata" = "none";
-        "title" = "none";
-        "summary" = "none";
-      };
-
-      ics10-grandpa-cw-proposal = let
-        code = builtins.readFile
-          "${self'.packages.ics10-grandpa-cw}/lib/ics10_grandpa_cw.wasm.gz.txt";
-        code-file = builtins.toFile "ics10_grandpa_cw.wasm.json"
-          (builtins.toJSON
-            (ibc-lightclients-wasm-v1-msg-push-new-wasm-code code));
-      in pkgs.stdenv.mkDerivation {
-        name = "ics10-grandpa-cw-proposal";
-        dontUnpack = true;
-        installPhase = ''
-          mkdir --parents $out
-          cp ${code-file} $out/ics10_grandpa_cw.wasm.json
-        '';
-      };
-      centaurid-init = pkgs.writeShellApplication {
-        name = "centaurid-init";
-        runtimeInputs = devnetTools.withBaseContainerTools ++ [
-          centaurid
-          pkgs.jq
-          self.inputs.cvm.packages."${system}".cw-cvm-executor
-          self.inputs.cvm.packages."${system}".cw-cvm-outpost
-        ];
-
-        text = ''
-          ${bashTools.export pkgs.networksLib.pica.devnet}
-          VALIDATOR_KEY=$("$BINARY" keys show "VAL_MNEMONIC_1" --keyring-backend=test --keyring-dir="$KEYRING_TEST" --output=json | jq .address -r )
-
-          "$BINARY" tx gov submit-proposal ${ics10-grandpa-cw-proposal}/ics10_grandpa_cw.wasm.json --from="$VALIDATOR_KEY"  --keyring-backend test --gas 9021526220000 --fees 92000000166$FEE --keyring-dir "$KEYRING_TEST" --chain-id "$CHAIN_ID" --yes --home "$CHAIN_DATA" --output json
-          sleep $BLOCK_SECONDS
-          "$BINARY" query auth module-account gov --chain-id "$CHAIN_ID" --node tcp://localhost:$CONSENSUS_RPC_PORT --home "$CHAIN_DATA" | jq '.account.base_account.address' --raw-output
-          PROPOSAL_ID=1
-          "$BINARY" tx gov vote $PROPOSAL_ID yes --from "$VALIDATOR_KEY"  --keyring-backend test --gas 9021526220000 --fees 92000000166$FEE --keyring-dir "$KEYRING_TEST" --chain-id "$CHAIN_ID" --yes --home "$CHAIN_DATA" --output json
-          sleep 20
-          "$BINARY" query gov proposal $PROPOSAL_ID --chain-id "$CHAIN_ID" --node tcp://localhost:$CONSENSUS_RPC_PORT --home "$CHAIN_DATA" | jq '.status'
-          sleep $BLOCK_SECONDS
-          "$BINARY" query 08-wasm all-wasm-code --chain-id "$CHAIN_ID" --home "$CHAIN_DATA" --output json --node tcp://localhost:$CONSENSUS_RPC_PORT | jq '.code_ids[0]' --raw-output | tee "$CHAIN_DATA/code_id"
-        '';
       };
 
       centaurid-cvm-config = pkgs.writeShellApplication {
@@ -199,22 +128,7 @@
         '';
       };
 
-      centaurid-gen-fresh = pkgs.writeShellApplication {
-        name = "centaurid-gen-fresh";
-        runtimeInputs = [ centaurid-gen ];
-        text = ''
-          centaurid-gen fresh
-        '';
-      };
 
-      centaurid-gen = pkgs.writeShellApplication {
-        name = "centaurid-gen";
-        text = ''
-          centaurid start --rpc.unsafe --rpc.laddr tcp://0.0.0.0:26657 --pruning=nothing --minimum-gas-prices=0.001ppica --home="$CHAIN_DATA" --db_dir="$CHAIN_DATA/data" ${log} --with-tendermint=true --transport=socket --trace-store=$CHAIN_DATA/kvstore.log --grpc.address=0.0.0.0:${
-            builtins.toString pkgs.networksLib.pica.devnet.GRPCPORT
-          } --grpc.enable=true --grpc-web.enable=false --api.enable=true --cpu-profile=$CHAIN_DATA/cpu-profile.log --p2p.pex=false --p2p.upnp=false
-        '';
-      };
     in {
       packages = rec {
         inherit centaurid centaurid-gen centaurid-init centaurid-gen-fresh

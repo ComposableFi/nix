@@ -1,10 +1,17 @@
-{ self, ... }: {
-  perSystem = { config, self', inputs', system, pkgs, ... }: {
+{self, ...}: {
+  perSystem = {
+    config,
+    self',
+    inputs',
+    system,
+    pkgs,
+    ...
+  }: {
     _module.args = {
       runtimeInputs = with pkgs; [
         getoptions
         jq
-        dasel        
+        dasel
         cw-cvm-executor
         cw-cvm-outpost
         centauri

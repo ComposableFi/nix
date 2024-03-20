@@ -1,5 +1,12 @@
-{ self, ... }: {
-  perSystem = { config, self', inputs', system, pkgs, ... }: {
+{self, ...}: {
+  perSystem = {
+    config,
+    self',
+    inputs',
+    system,
+    pkgs,
+    ...
+  }: {
     packages = {
       update-input = pkgs.writeShellApplication {
         name = "up";

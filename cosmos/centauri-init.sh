@@ -76,32 +76,50 @@ then
 
 
     add_key () {
-        # if ! centaurid keys show "$2" --keyring-backend test --keyring-dir "$KEYRING_TEST" >> /dev/null
-        # then
-        #     echo "$1" | centaurid keys add "$2" --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" >> /dev/null
-        # fi
-        centaurid keys show "$2" --keyring-backend test --keyring-dir "$KEYRING_TEST" | jq .address -r
+        echo "$1" | centaurid keys add "$2" --recover --keyring-backend test   >> /dev/null 2>&1        
+        centaurid keys show "$2" --keyring-backend test  | jq .address -r
     }
     
     add-genesis-account () {
         echo "adding $1"
-        centaurid --keyring-backend test add-genesis-account "$1" "10000000000000000000000000000ppica,100000000000000000000000ptest,100000000000000000000000pdemo" --home "$CHAIN_DATA"
+        centaurid --keyring-backend test add-genesis-account "$1" "10000000000000000000000000000ppica,100000000000000000000000ptest,100000000000000000000000pdemo" --home "$CHAIN_DATA" 
     }    
 
     ALICE_ADDRESS=$(add_key "$ALICE" "ALICE")
     add-genesis-account "$ALICE_ADDRESS"
     
-    echo "$BOB" | centaurid keys add BOB --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$VAL_MNEMONIC_1" | centaurid keys add "VAL_MNEMONIC_1" --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius" | centaurid keys add test1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "quality vacuum heart guard buzz spike sight swarm shove special gym robust assume sudden deposit grid alcohol choice devote leader tilt noodle tide penalty" | centaurid keys add test2 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$RLY_MNEMONIC_1" | centaurid keys add RLY_MNEMONIC_1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$RLY_MNEMONIC_2" | centaurid keys add RLY_MNEMONIC_2 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$RLY_MNEMONIC_3" | centaurid keys add RLY_MNEMONIC_3 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$RLY_MNEMONIC_4" | centaurid keys add RLY_MNEMONIC_4 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$APPLICATION1" | centaurid keys add APPLICATION1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$APPLICATION2" | centaurid keys add APPLICATION2 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    centaurid --keyring-backend test --keyring-dir "$KEYRING_TEST" --home "$CHAIN_DATA" gentx "VAL_MNEMONIC_1" "250000000000000ppica" --chain-id="$CHAIN_ID" --amount="250000000000000ppica"
+    BOB_ADDRESS=$(add_key "$BOB" "BOB")
+    add-genesis-account "$BOB_ADDRESS"
+    
+    VAL_MNEMONIC_1_ADDRESS=$(add_key "$VAL_MNEMONIC_1" "VAL_MNEMONIC_1")
+    add-genesis-account "$VAL_MNEMONIC_1_ADDRESS"
+    
+    RLY_MNEMONIC_1_ADDRESS=$(add_key "$RLY_MNEMONIC_1" "RLY_MNEMONIC_1")
+    add-genesis-account "$RLY_MNEMONIC_1_ADDRESS"
+    
+    RLY_MNEMONIC_2_ADDRESS=$(add_key "$RLY_MNEMONIC_2" "RLY_MNEMONIC_2")
+    add-genesis-account "$RLY_MNEMONIC_2_ADDRESS"
+    
+    RLY_MNEMONIC_3_ADDRESS=$(add_key "$RLY_MNEMONIC_3" "RLY_MNEMONIC_3")
+    add-genesis-account "$RLY_MNEMONIC_3_ADDRESS"
+    
+    RLY_MNEMONIC_4_ADDRESS=$(add_key "$RLY_MNEMONIC_4" "RLY_MNEMONIC_4")
+    add-genesis-account "$RLY_MNEMONIC_4_ADDRESS"
+    
+    APPLICATION1_ADDRESS=$(add_key "$APPLICATION1" "APPLICATION1")
+    add-genesis-account "$APPLICATION1_ADDRESS"
+    
+    APPLICATION2_ADDRESS=$(add_key "$APPLICATION2" "APPLICATION2")
+    add-genesis-account "$APPLICATION2_ADDRESS"
+    
+    TEST1_ADDRESS=$(add_key "$TEST1" "TEST1")
+    add-genesis-account "$TEST1_ADDRESS"
+    
+    TEST2_ADDRESS=$(add_key "$TEST2" "TEST2")
+    add-genesis-account "$TEST2_ADDRESS"
+        
+
+    centaurid --keyring-backend test  --home "$CHAIN_DATA" gentx "VAL_MNEMONIC_1" "250000000000000ppica" --chain-id="$CHAIN_ID" --amount="250000000000000ppica"
     centaurid collect-gentxs --home "$CHAIN_DATA"  --gentx-dir "$CHAIN_DATA/config/gentx"
 else
     echo "WARNING: REUSING EXISTING DATA FOLDER"
