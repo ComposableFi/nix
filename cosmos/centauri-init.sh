@@ -8,8 +8,6 @@ parser_definition() {
 
 eval "$(getoptions parser_definition) exit 1"
 
-env
-
 PICA_CHANNEL_ID="''${PICA_CHANNEL_ID:=1}"
 
 if test "$FRESH" != "false" && test -d "$CHAIN_DATA" 
@@ -76,35 +74,33 @@ then
     sed -i "s/max_header_bytes = 1048576/max_header_bytes = 10485760/" "$CHAIN_DATA/config/config.toml"
     sed -i "s/max_tx_bytes = 1048576/max_tx_bytes = 10485760/" "$CHAIN_DATA/config/config.toml"
 
-    echo "$ALICE" | centaurid keys add ALICE --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
+
+    add_key () {
+        # if ! centaurid keys show "$2" --keyring-backend test --keyring-dir "$KEYRING_TEST" >> /dev/null
+        # then
+        #     echo "$1" | centaurid keys add "$2" --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" >> /dev/null
+        # fi
+        centaurid keys show "$2" --keyring-backend test --keyring-dir "$KEYRING_TEST" | jq .address -r
+    }
+    
+    add-genesis-account () {
+        echo "adding $1"
+        centaurid --keyring-backend test add-genesis-account "$1" "10000000000000000000000000000ppica,100000000000000000000000ptest,100000000000000000000000pdemo" --home "$CHAIN_DATA"
+    }    
+
+    ALICE_ADDRESS=$(add_key "$ALICE" "ALICE")
+    add-genesis-account "$ALICE_ADDRESS"
+    
     echo "$BOB" | centaurid keys add BOB --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
     echo "$VAL_MNEMONIC_1" | centaurid keys add "VAL_MNEMONIC_1" --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
     echo "notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius" | centaurid keys add test1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
     echo "quality vacuum heart guard buzz spike sight swarm shove special gym robust assume sudden deposit grid alcohol choice devote leader tilt noodle tide penalty" | centaurid keys add test2 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$RLY_MNEMONIC_1" | centaurid keys add relayer1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$RLY_MNEMONIC_2" | centaurid keys add relayer2 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$RLY_MNEMONIC_3" | centaurid keys add relayer3 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-    echo "$RLY_MNEMONIC_4" | centaurid keys add relayer4 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
+    echo "$RLY_MNEMONIC_1" | centaurid keys add RLY_MNEMONIC_1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
+    echo "$RLY_MNEMONIC_2" | centaurid keys add RLY_MNEMONIC_2 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
+    echo "$RLY_MNEMONIC_3" | centaurid keys add RLY_MNEMONIC_3 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
+    echo "$RLY_MNEMONIC_4" | centaurid keys add RLY_MNEMONIC_4 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
     echo "$APPLICATION1" | centaurid keys add APPLICATION1 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
     echo "$APPLICATION2" | centaurid keys add APPLICATION2 --recover --keyring-backend test --keyring-dir "$KEYRING_TEST" || true
-
-    add-genesis-account () {
-        echo "adding $1"
-        centaurid --keyring-backend test add-genesis-account "$1" "10000000000000000000000000000ppica,100000000000000000000000ptest,100000000000000000000000pdemo" --home "$CHAIN_DATA"
-    }
-
-    add-genesis-account "$("$BINARY" keys show relayer1 --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
-    add-genesis-account "$("$BINARY" keys show relayer2 --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
-    add-genesis-account "$("$BINARY" keys show relayer3 --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
-    add-genesis-account "$("$BINARY" keys show relayer4 --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
-    add-genesis-account "$("$BINARY" keys show APPLICATION1 --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
-    add-genesis-account "$("$BINARY" keys show APPLICATION2 --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
-    add-genesis-account "$("$BINARY" keys show "VAL_MNEMONIC_1" --keyring-backend test --keyring-dir "$KEYRING_TEST" --output json | jq .address -r )"
-
-    add-genesis-account centauri1zr4ng42laatyh9zx238n20r74spcrlct6jsqaw
-    add-genesis-account ASD
-    add-genesis-account centauri1cyyzpxplxdzkeea7kwsydadg87357qnamvg3y3
-    add-genesis-account centauri18s5lynnmx37hq4wlrw9gdn68sg2uxp5ry85k7d
     centaurid --keyring-backend test --keyring-dir "$KEYRING_TEST" --home "$CHAIN_DATA" gentx "VAL_MNEMONIC_1" "250000000000000ppica" --chain-id="$CHAIN_ID" --amount="250000000000000ppica"
     centaurid collect-gentxs --home "$CHAIN_DATA"  --gentx-dir "$CHAIN_DATA/config/gentx"
 else

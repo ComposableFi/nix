@@ -4,10 +4,10 @@
       runtimeInputs = with pkgs; [
         getoptions
         jq
-        dasel
-        centauri
+        dasel        
         cw-cvm-executor
         cw-cvm-outpost
+        centauri
         # cw-mantis-order
       ];
       pkgs = import self.inputs.nixpkgs {

@@ -27,12 +27,7 @@
             HOME=${devnet-root-directory}
             export HOME
             CHAIN_DATA="$HOME/.osmosisd"
-            if test "''${1-reuse}" == "fresh" ; then
-             echo "removing data dir"
-             rm --force --recursive "$CHAIN_DATA" 
-            fi
-
-            KEYRING_TEST=$CHAIN_DATA
+                      KEYRING_TEST=$CHAIN_DATA
             CHAIN_ID="osmosis-dev"
             VALIDATOR_MONIKER="${cosmosTools.validators.moniker}"
             VALIDATOR_MNEMONIC="${cosmosTools.validators.mnemonic}"
@@ -230,6 +225,8 @@
           runtimeInputs = devnetTools.withBaseContainerTools
             ++ [ osmosisd pkgs.jq pkgs.dasel ];
           text = ''
+
+
             ${bashTools.export pkgs.networksLib.osmosis.devnet}
             KEY=${cosmosTools.cvm.osmosis}
 

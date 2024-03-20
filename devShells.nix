@@ -1,10 +1,8 @@
 { self, ... }: {
-  perSystem = { config, self', inputs', system, pkgs, ... }: {
+  perSystem = { config, self', inputs', system, pkgs, runtimeInputs,... }: {
     devShells = {
       default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            getoptions
-          ];
+          buildInputs = runtimeInputs;
        };
     };
   };
