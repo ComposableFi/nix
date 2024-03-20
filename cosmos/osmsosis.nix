@@ -33,7 +33,7 @@
         '';
       };
 
-            osmosisd-pools-init = pkgs.writeShellApplication {
+      osmosisd-pools-init = pkgs.writeShellApplication {
         name = "osmosisd-pools-init";
         runtimeInputs =
           devnetTools.withBaseContainerTools
@@ -44,7 +44,6 @@
 
         '';
       };
-
     };
   };
 }

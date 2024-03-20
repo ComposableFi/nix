@@ -47,6 +47,7 @@
         ./devShells.nix
         ./formatter.nix
         ./cosmos/centauri.nix
+        ./cosmos/omosis.nix
       ];
       systems = ["x86_64-linux"];
       perSystem = {
