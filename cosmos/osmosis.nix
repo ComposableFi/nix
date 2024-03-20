@@ -34,13 +34,14 @@
             '';
           };
 
-          osmosisd-pools-init = pkgs.writeShellApplication {
-            name = "osmosisd-pools-init";
+          osmosis-pools-init = pkgs.writeShellApplication {
+            name = "osmosis-pools-init";
             runtimeInputs = runtimeInputs;
             text = ''
               ${sh.export networks.osmosis.devnet}
-
-
+              ${sh.export networks.devnet.mnemonics}
+              POOL_CONFIG="${./osmosis-gamm-pool-pica-osmo.json}"
+              ${builtins.readFile ./osmosis-pools-init.sh}
             '';
           };
 
