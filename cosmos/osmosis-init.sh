@@ -24,14 +24,14 @@ then
     echo "$VAL_MNEMONIC_1" | osmosisd init --chain-id="$CHAIN_ID" --home "$CHAIN_DATA" --recover "VAL_MNEMONIC_1"
 
     function dasel-genesis() {
-        dasel put --type string --file "$GENESIS" --value "$2" "$1"
+        dasel put --type string --file "$CHAIN_DATA/config/genesis.json" --value "$2" "$1"
     }
 
     dasel-genesis '.app_state.staking.params.bond_denom' 'uosmo'
     dasel-genesis '.app_state.staking.params.unbonding_time' '960s'
-    dasel  put --type json --file "$GENESIS" --value "[{},{},{}]" 'app_state.bank.denom_metadata'
+    dasel  put --type json --file "$CHAIN_DATA/config/genesis.json" --value "[{},{},{}]" 'app_state.bank.denom_metadata'
 
-    dasel  put --type json --file "$GENESIS" --value "[{}]" '.app_state.bank.denom_metadata.[0].denom_units'
+    dasel  put --type json --file "$CHAIN_DATA/config/genesis.json" --value "[{}]" '.app_state.bank.denom_metadata.[0].denom_units'
     dasel-genesis '.app_state.bank.denom_metadata.[0].description' 'Registered denom uion for localosmosis testing'
     dasel-genesis '.app_state.bank.denom_metadata.[0].denom_units.[0].denom' 'uion'
     dasel-genesis '.app_state.bank.denom_metadata.[0].denom_units.[0].exponent' 0
@@ -40,7 +40,7 @@ then
     dasel-genesis '.app_state.bank.denom_metadata.[0].name' 'uion'
     dasel-genesis '.app_state.bank.denom_metadata.[0].symbol' 'uion'
 
-    dasel  put --type json --file "$GENESIS" --value "[{}]" '.app_state.bank.denom_metadata.[1].denom_units'
+    dasel  put --type json --file "$CHAIN_DATA/config/genesis.json" --value "[{}]" '.app_state.bank.denom_metadata.[1].denom_units'
     dasel-genesis '.app_state.bank.denom_metadata.[1].description' 'Registered denom uosmo for localosmosis testing'
     dasel-genesis '.app_state.bank.denom_metadata.[1].denom_units.[0].denom' 'uosmo'
     dasel-genesis '.app_state.bank.denom_metadata.[1].denom_units.[0].exponent' 0
@@ -49,7 +49,7 @@ then
     dasel-genesis '.app_state.bank.denom_metadata.[1].name' 'uosmo'
     dasel-genesis '.app_state.bank.denom_metadata.[1].symbol' 'uosmo'
 
-    dasel  put --type json --file "$GENESIS" --value "[{}]" '.app_state.bank.denom_metadata.[2].denom_units'
+    dasel  put --type json --file "$CHAIN_DATA/config/genesis.json" --value "[{}]" '.app_state.bank.denom_metadata.[2].denom_units'
     dasel-genesis '.app_state.bank.denom_metadata.[2].description' 'ibc/3262D378E1636BE287EC355990D229DCEB828F0C60ED5049729575E235C60E8B'
     dasel-genesis '.app_state.bank.denom_metadata.[2].denom_units.[0].denom' 'ibc/3262D378E1636BE287EC355990D229DCEB828F0C60ED5049729575E235C60E8B'
     dasel-genesis '.app_state.bank.denom_metadata.[2].denom_units.[0].exponent' 0
@@ -58,23 +58,23 @@ then
     dasel-genesis '.app_state.bank.denom_metadata.[2].name' 'ibc/3262D378E1636BE287EC355990D229DCEB828F0C60ED5049729575E235C60E8B'
     dasel-genesis '.app_state.bank.denom_metadata.[2].symbol' 'ibc/3262D378E1636BE287EC355990D229DCEB828F0C60ED5049729575E235C60E8B'
 
-    dasel  put --type string --file "$GENESIS" --value "transfer" '.app_state.transfer.port_id'
-    dasel  put --type json --file "$GENESIS" --value "[{}]" '.app_state.transfer.denom_traces'
-    dasel  put --type string --file "$GENESIS" --value "transfer/channel-0" '.app_state.transfer.denom_traces.[0].path'
-    dasel  put --type string --file "$GENESIS" --value "ppica" '.app_state.transfer.denom_traces.[0].base_denom'
+    dasel  put --type string --file "$CHAIN_DATA/config/genesis.json" --value "transfer" '.app_state.transfer.port_id'
+    dasel  put --type json --file "$CHAIN_DATA/config/genesis.json" --value "[{}]" '.app_state.transfer.denom_traces'
+    dasel  put --type string --file "$CHAIN_DATA/config/genesis.json" --value "transfer/channel-0" '.app_state.transfer.denom_traces.[0].path'
+    dasel  put --type string --file "$CHAIN_DATA/config/genesis.json" --value "ppica" '.app_state.transfer.denom_traces.[0].base_denom'
 
     dasel-genesis '.app_state.crisis.constant_fee.denom' 'uosmo'
     dasel-genesis '.app_state.gov.voting_params.voting_period' '30s'
-    dasel  put --type json --file "$GENESIS" --value "[{}]" '.app_state.gov.deposit_params.min_deposit'
+    dasel  put --type json --file "$CHAIN_DATA/config/genesis.json" --value "[{}]" '.app_state.gov.deposit_params.min_deposit'
     dasel-genesis '.app_state.gov.deposit_params.min_deposit.[0].denom' 'uosmo'
     dasel-genesis '.app_state.gov.deposit_params.min_deposit.[0].amount' '1000000000'
     dasel-genesis '.app_state.epochs.epochs.[1].duration' "60s"
-    dasel  put --type json --file "$GENESIS" --value "[{},{},{}]" '.app_state.poolincentives.lockable_durations'
+    dasel  put --type json --file "$CHAIN_DATA/config/genesis.json" --value "[{},{},{}]" '.app_state.poolincentives.lockable_durations'
     dasel-genesis '.app_state.poolincentives.lockable_durations.[0]' "120s"
     dasel-genesis '.app_state.poolincentives.lockable_durations.[1]' "180s"
     dasel-genesis '.app_state.poolincentives.lockable_durations.[2]' "240s"
     dasel-genesis '.app_state.poolincentives.params.minted_denom' "uosmo"
-    dasel  put --type json --file "$GENESIS" --value "[{},{},{},{}]" '.app_state.incentives.lockable_durations'
+    dasel  put --type json --file "$CHAIN_DATA/config/genesis.json" --value "[{},{},{},{}]" '.app_state.incentives.lockable_durations'
     dasel-genesis '.app_state.incentives.lockable_durations.[0]' "1s"
     dasel-genesis '.app_state.incentives.lockable_durations.[1]' "120s"
     dasel-genesis '.app_state.incentives.lockable_durations.[2]' "180s"
@@ -84,16 +84,19 @@ then
     dasel-genesis '.app_state.mint.params.epoch_identifier' "day"
     dasel-genesis '.app_state.poolmanager.params.pool_creation_fee.[0].denom' "uosmo"
 
-    dasel  put --type json --file "$GENESIS" --value "[{}]" '.app_state.gamm.params.pool_creation_fee'
+    dasel  put --type json --file "$CHAIN_DATA/config/genesis.json" --value "[{}]" '.app_state.gamm.params.pool_creation_fee'
     dasel-genesis '.app_state.gamm.params.pool_creation_fee.[0].denom' "uosmo"
     dasel-genesis '.app_state.gamm.params.pool_creation_fee.[0].amount' "10000000"
     dasel-genesis '.app_state.txfees.basedenom' "uosmo"
     dasel-genesis '.app_state.wasm.params.code_upload_access.permission' "Everybody"
 
+    add_key () {
+        echo "$1" | osmosisd keys add "$2" --recover --keyring-backend test   >> /dev/null 2>&1        
+        osmosisd keys show "$2" --keyring-backend test  | jq .address -r
+    }
+    
     function add-genesis-account() {
-        echo "$1" | osmosisd keys add "$2" --recover --keyring-backend test --home "$CHAIN_DATA" --keyring-dir "$KEYRING_TEST"
-        ACCOUNT=$(osmosisd keys show --address "$2" --keyring-backend test --home "$CHAIN_DATA" )
-        echo "$ACCOUNT"
+        ACCOUNT=$(add_key "$1" "$2")
         osmosisd add-genesis-account "$ACCOUNT" 100000000000000000uosmo,100000000000uion,100000000000stake,10000000000000ibc/3262D378E1636BE287EC355990D229DCEB828F0C60ED5049729575E235C60E8B --home "$CHAIN_DATA"
     }
 
