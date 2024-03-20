@@ -43,10 +43,12 @@
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
+        inputs.process-compose-flake.flakeModule
         ./args.nix
         ./devShells.nix
         ./formatter.nix
         ./packages.nix
+        ./process-compose.nix
         ./cosmos/centauri.nix
         ./cosmos/hermes.nix
         ./cosmos/osmosis.nix

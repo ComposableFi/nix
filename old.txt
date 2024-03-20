@@ -259,97 +259,18 @@
   };
 in {
   settings = {
-    log_level = "trace";
-    log_location = "/tmp/composable-devnet/pc.log";
+  
     processes = {
-      centauri = {
-        command = self'.packages.centaurid-gen;
-        readiness_probe.http_get = {
-          host = "127.0.0.1";
-          port = networks.pica.devnet.CONSENSUS_RPC_PORT;
-        };
-        log_location = "${devnet-root-directory}/centauri.log";
-        availability = {restart = chain-restart;};
-      };
-
-      cosmos-hub-init = {
-        command = self'.packages.cosmos-hub-gen;
-        log_location = "${devnet-root-directory}/cosmos-hub-init.log";
-        availability = {restart = chain-restart;};
-        namespace = "full-node";
-      };
-
-      cosmos-hub = {
-        command = self'.packages.cosmos-hub-start;
-        readiness_probe.http_get = {
-          host = "127.0.0.1";
-          port = networks.cosmos-hub.devnet.CONSENSUS_RPC_PORT;
-        };
-        log_location = "${devnet-root-directory}/cosmos-hub-start.log";
-        availability = {restart = chain-restart;};
-        depends_on."cosmos-hub-init".condition = "process_completed_successfully";
-        namespace = "full-node";
-      };
-
-      centauri-neutron-init = {
-        command = self'.packages.neutron-centauri-hermes-init;
-        log_location = "${devnet-root-directory}/centauri-neutron-init.log";
-        availability = {restart = relay;};
-        depends_on."neutron".condition = "process_healthy";
-        depends_on."osmosis-centauri-init".condition = "process_completed_successfully";
-        depends_on."neutron-cosmos-hub-init".condition = "process_completed_successfully";
-        namespace = "trustless-relay";
-      };
-
-      centauri-cosmos-hub-init = {
-        command = self'.packages.centauri-cosmos-hub-hermes-init;
-        log_location = "${devnet-root-directory}/centauri-cosmos-hub-init.log";
-        availability = {restart = relay;};
-        depends_on."centauri".condition = "process_healthy";
-        depends_on."cosmos-hub".condition = "process_healthy";
-        namespace = "trustless-relay";
-      };
-
-      centauri-cosmos-hub-relay = {
-        command = self'.packages.centauri-cosmos-hub-hermes-relay;
-        log_location = "${devnet-root-directory}/cosmos-hub-centauri-relay.log";
-        availability = {restart = relay;};
-        depends_on."cosmos-hub".condition = "process_healthy";
-        depends_on."centauri-cosmos-hub-init".condition = "process_completed_successfully";
-        namespace = "trustless-relay";
-      };
-
-      osmosis-cosmos-hub-init = {
-        command = self'.packages.osmosis-cosmos-hub-hermes-init;
-        log_location = "${devnet-root-directory}/osmosis-cosmos-hub-init.log";
-        availability = {restart = relay;};
-        depends_on."osmosis".condition = "process_healthy";
-        depends_on."cosmos-hub".condition = "process_healthy";
-        namespace = "trustless-relay";
-      };
-
-      osmosis-cosmos-hub-relay = {
-        command = self'.packages.osmosis-cosmos-hub-hermes-relay;
-        log_location = "${devnet-root-directory}/cosmos-hub-osmosis-relay.log";
-        availability = {restart = relay;};
-        depends_on."cosmos-hub".condition = "process_healthy";
-        depends_on."osmosis-cosmos-hub-init".condition = "process_completed_successfully";
-        namespace = "trustless-relay";
-      };
-
-      centauri-neutron-relay = {
-        command = self'.packages.centauri-neutron-hermes-relay;
-        log_location = "${devnet-root-directory}/neutron-centauri-relay.log";
-        availability = {restart = relay;};
-        depends_on."neutron".condition = "process_healthy";
-        depends_on."neutron-centauri-init".condition = "process_completed_successfully";
-        namespace = "trustless-relay";
-      };
 
       centauri-init = {
         command = self'.packages.centaurid-init;
         depends_on."centauri".condition = "process_healthy";
         log_location = "${devnet-root-directory}/centauri-init.log";
+      readiness_probe.http_get = {
+        host = "127.0.0.1";
+        port = networksLib.networks.pica.devnet.CONSENSUS_RPC_PORT;
+      };
+              
         availability = {restart = chain-restart;};
       };
 
