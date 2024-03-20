@@ -46,6 +46,7 @@
         ./args.nix
         ./devShells.nix
         ./formatter.nix
+        ./packages.nix
         ./cosmos/centauri.nix
         ./cosmos/osmosis.nix
       ];
