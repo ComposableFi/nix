@@ -88,8 +88,8 @@ if [[ ! -d "$CHAIN_DATA" ]]; then
     dasel-genesis '.app_state.wasm.params.code_upload_access.permission' "Everybody"
 
     add_key() {
-        echo "$1" | osmosisd keys add "$2" --recover --keyring-backend test >>/dev/null 2>&1
-        osmosisd keys show "$2" --keyring-backend test --output=json | jq .address -r
+        echo "$1" | "$BINARY" keys add "$2" --recover --keyring-backend=test >>/dev/null 2>&1
+        "$BINARY" keys show "$2" --keyring-backend=test --output=json | jq .address -r
     }
 
     function add-genesis-account() {
@@ -102,6 +102,7 @@ if [[ ! -d "$CHAIN_DATA" ]]; then
     add-genesis-account "$RLY_MNEMONIC_3" "RLY_MNEMONIC_3"
     add-genesis-account "$RLY_MNEMONIC_4" "RLY_MNEMONIC_4"
     add-genesis-account "$APPLICATION1" "APPLICATION1"
+    add-genesis-account "$APPLICATION2" "APPLICATION2"
 
     osmosisd gentx "VAL_MNEMONIC_1" 500000000uosmo --keyring-backend=test --chain-id=$CHAIN_ID --home "$CHAIN_DATA"
     osmosisd collect-gentxs --home "$CHAIN_DATA"

@@ -41,6 +41,8 @@
           export CW_MANTIS_ORDER_WASM             
           ${sh.export networks.osmosis.devnet}
           ${sh.export networks.devnet.mnemonics}
+          OSMOSISD_ENVIRONMENT="$HOME/.osmosisd"          
+          export OSMOSISD_ENVIRONMENT           
           ${builtins.readFile ./cosmos_sdk.sh}          
           ${builtins.readFile ./cvm-init.sh}
         '';
