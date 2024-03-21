@@ -23,34 +23,6 @@
       },
       {
         "force_network": {
-          "network_id": 4,
-          "accounts": {
-            "bech": "neutron"
-          },
-          "outpost": {
-            "cosm_wasm": {
-              "contract": "$NEUTRON_OUTPOST_CONTRACT_ADDRESS",
-              "executor_code_id": $NEUTRON_EXECUTOR_CODE_ID,
-              "admin": "$KEY"
-            }
-          },
-          "ibc": {
-            "channels": {
-              "ics20": {
-                "sender": "CosmosStargateIbcApplicationsTransferV1MsgTransfer",
-                "features": {
-                  "pfm": {},
-                  "wasm_hooks": {
-                    "callback": true
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      {
-        "force_network": {
           "network_id": 3,
           "accounts": {
             "bech": "osmo"
@@ -58,7 +30,7 @@
           "outpost": {
             "cosm_wasm": {
               "contract": "$OSMOSIS_OUTPOST_CONTRACT_ADDRESS",
-              "executor_code_id": $OSMOSIS_EXECUTOR_CODE_ID,
+              "executor_code_id": "$OSMOSIS_EXECUTOR_CODE_ID",
               "admin": "$KEY"
             }
           },
@@ -86,7 +58,7 @@
           "outpost": {
             "cosm_wasm": {
               "contract": "$CENTAURI_OUTPOST_CONTRACT_ADDRESS",
-              "executor_code_id": $CENTAURI_EXECUTOR_CODE_ID,
+              "executor_code_id": "$CENTAURI_EXECUTOR_CODE_ID",
               "admin": "$KEY"
             }
           },

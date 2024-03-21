@@ -62,7 +62,7 @@
       log_location = "${log_directory}/osmosis-cvm-init.log";
       availability = {restart = "on_failure";};
       depends_on = {
-          "osmosis-centauri-init".condition = "process_completed_successfully";
+        "osmosis-centauri-init".condition = "process_completed_successfully";
       };
       namespace = "cvm";
     };
@@ -72,7 +72,7 @@
       log_location = "${log_directory}/centauri-cvm-init.log";
       availability = {restart = "on_failure";};
       depends_on = {
-          "osmosis-centauri-init".condition = "process_completed_successfully";
+        "osmosis-centauri-init".condition = "process_completed_successfully";
       };
       namespace = "cvm";
     };

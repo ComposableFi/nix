@@ -9,8 +9,12 @@ THE_BLOCK_HASH=$(echo "$THE_BLOCK" | xxd -p -u)
 CW_CVM_OUTPOST_CODE_ID=$(cosmos_sdk_upload_wasm "$CW_CVM_OUTPOST_WASM" | tail --lines 1)
 echo "$CW_CVM_OUTPOST_CODE_ID"
 
+
+
 CW_CVM_EXECUTOR_CODE_ID=$(cosmos_sdk_upload_wasm "$CW_CVM_EXECUTOR_WASM" | tail --lines 1)
 echo "$CW_CVM_EXECUTOR_CODE_ID"
+
+echo "$CW_CVM_EXECUTOR_CODE_ID" > "$CHAIN_DATA/CW_CVM_EXECUTOR_CODE_ID"
 
 CW_MANTIS_ORDER_CODE_ID=$(cosmos_sdk_upload_wasm "$CW_MANTIS_ORDER_WASM" | tail --lines 1)
 echo "$CW_MANTIS_ORDER_CODE_ID"
