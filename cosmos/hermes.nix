@@ -129,24 +129,25 @@
       .toml;
   in {
     packages = rec {
-      osmosis-centauri-hermes-init = pkgs.writeShellApplication {
+      osmosis-centauri-init = pkgs.writeShellApplication {
         runtimeInputs = runtimeInputs;
-        name = "osmosis-centauri-hermes-init";
+        name = "osmosis-centauri-init";
         text = ''
           ${sh.export networks.osmosis-centauri.devnet}
           ${sh.export networks.devnet.mnemonics}
           HERMES_CONFIG=${builtins.toFile "hermes-config.toml" hermes-config}
-          ${builtins.readFile ./osmosis-centauri-hermes-init.sh}
+          ${builtins.readFile ./osmosis-centauri-init.sh}
         '';
       };
 
-      osmosis-centauri-hermes-start = pkgs.writeShellApplication {
+      osmosis-centauri-start = pkgs.writeShellApplication {
         runtimeInputs = runtimeInputs;
-        name = "osmosis-centauri-hermes-start";
+        name = "osmosis-centauri-start";
         text = ''
+          ${sh.export networks.devnet.mnemonics}
+          ${sh.export networks.osmosis-centauri.devnet}
+          HOME=$RELAY_DATA
           RUST_LOG=info
-          mkdir --parents "$DEVNET_DATA_DIRECTORY/osmosis-centauri"
-          HOME=$DEVNET_DATA_DIRECTORY/osmosis-centauri
           export HOME
           export RUST_LOG
           hermes start
