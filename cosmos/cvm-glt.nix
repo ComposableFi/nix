@@ -1,5 +1,11 @@
-{ OSMOSIS_ADMIN, CENTAURI_ADMIN, OSMOSIS_EXECUTOR_CODE_ID, CENTAURI_EXECUTOR_CODE_ID, CENTAURI_OUTPOST_CONTRACT_ADDRESS, OSMOSIS_OUTPOST_CONTRACT_ADDRESS }:
 {
+  OSMOSIS_ADMIN,
+  CENTAURI_ADMIN,
+  OSMOSIS_EXECUTOR_CODE_ID,
+  CENTAURI_EXECUTOR_CODE_ID,
+  CENTAURI_OUTPOST_CONTRACT_ADDRESS,
+  OSMOSIS_OUTPOST_CONTRACT_ADDRESS,
+}: {
   config = {
     force = [
       {
@@ -13,7 +19,7 @@
               ics20 = {
                 sender = "CosmosStargateIbcApplicationsTransferV1MsgTransfer";
                 features = {
-                  pfm = { };
+                  pfm = {};
                 };
               };
             };
@@ -38,7 +44,7 @@
               ics20 = {
                 sender = "CosmosStargateIbcApplicationsTransferV1MsgTransfer";
                 features = {
-                  pfm = { };
+                  pfm = {};
                   "wasm_hooks" = {
                     callback = true;
                   };
@@ -66,7 +72,7 @@
               ics20 = {
                 sender = "CosmosStargateIbcApplicationsTransferV1MsgTransfer";
                 features = {
-                  pfm = { };
+                  pfm = {};
                   "wasm_hooks" = {
                     callback = true;
                   };

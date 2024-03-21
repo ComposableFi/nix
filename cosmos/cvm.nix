@@ -52,21 +52,21 @@
         name = "cvm-config";
         text = ''
 
-          export CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat ${networks.pica.devnet.CHAIN_DATA}/CVM_OUTPOST_CONTRACT_ADDRESS)
-          export CENTAURI_CW_CVM_EXECUTOR_CODE_ID=$(cat ${networks.pica.devnet.CHAIN_DATA}/CW_CVM_EXECUTOR_CODE_ID)
+                    export CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat ${networks.pica.devnet.CHAIN_DATA}/CVM_OUTPOST_CONTRACT_ADDRESS)
+                    export CENTAURI_CW_CVM_EXECUTOR_CODE_ID=$(cat ${networks.pica.devnet.CHAIN_DATA}/CW_CVM_EXECUTOR_CODE_ID)
 
-# OSMOSIS_ADMIN, CENTAURI_ADMIN, OSMOSIS_EXECUTOR_CODE_ID, CENTAURI_EXECUTOR_CODE_ID, CENTAURI_OUTPOST_CONTRACT_ADDRESS, OSMOSIS_OUTPOST_CONTRACT_ADDRESS
-          ${sh.export pkgs.networksLib.osmosis.devnet}
-          export OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$HOME/.osmosisd/CVM_OUTPOST_CONTRACT_ADDRESS")
-          export OSMOSIS_CW_CVM_EXECUTOR_CODE_ID=$(cat "$HOME/.osmosisd/CW_CVM_EXECUTOR_CODE_ID")
+          # OSMOSIS_ADMIN, CENTAURI_ADMIN, OSMOSIS_EXECUTOR_CODE_ID, CENTAURI_EXECUTOR_CODE_ID, CENTAURI_OUTPOST_CONTRACT_ADDRESS, OSMOSIS_OUTPOST_CONTRACT_ADDRESS
+                    ${sh.export pkgs.networksLib.osmosis.devnet}
+                    export OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$HOME/.osmosisd/CVM_OUTPOST_CONTRACT_ADDRESS")
+                    export OSMOSIS_CW_CVM_EXECUTOR_CODE_ID=$(cat "$HOME/.osmosisd/CW_CVM_EXECUTOR_CODE_ID")
 
-          CW_OUTPOST_CONTRACT_ADDRESS=$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS
+                    CW_OUTPOST_CONTRACT_ADDRESS=$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS
 
 
-          FORCE_CONFIG=$(cat << EOF
-            ${builtins.readFile ../cvm.json}
-          EOF
-          )
+                    FORCE_CONFIG=$(cat << EOF
+                      ${builtins.readFile ../cvm.json}
+                    EOF
+                    )
 
         '';
       };
