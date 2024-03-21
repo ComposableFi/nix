@@ -276,11 +276,11 @@
         "strictly-typed-pandas-src": "strictly-typed-pandas-src"
       },
       "locked": {
-        "lastModified": 1710852548,
-        "narHash": "sha256-dZab5x+Z8/0JCkdQYWD66as0nMbGNt2c0w21u5v2sxE=",
+        "lastModified": 1711040552,
+        "narHash": "sha256-i8kYs//JmxBODeRYtNWC+8gkemCoJiLpeeqQ2DdL1es=",
         "owner": "ComposableFi",
         "repo": "composable-vm",
-        "rev": "f5009eaec27a36182224a0f9de0aee3b95cb8e5e",
+        "rev": "88b942a823857307ce1d83eebaef35d5aa4830f1",
         "type": "github"
       },
       "original": {
@@ -2666,11 +2666,11 @@
         "nixpkgs": "nixpkgs_12"
       },
       "locked": {
-        "lastModified": 1710971412,
-        "narHash": "sha256-xbNMCYwwgWFVyM/tv3CrTVB5wvrw2uOiqIJfbVQw0ME=",
+        "lastModified": 1711034297,
+        "narHash": "sha256-yhA4h1WfrVBRz9M6E6zrRPZCSXK6ezj5TNAYoXILMXk=",
         "owner": "ComposableFi",
         "repo": "networks",
-        "rev": "fc7c6eaea4f4c5b1012cde62f236dc241119405a",
+        "rev": "09b1ca7d65b3979c4e89f3443248894dcbbcfabb",
         "type": "github"
       },
       "original": {
