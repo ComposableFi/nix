@@ -50,6 +50,7 @@
         ./packages.nix
         ./process-compose.nix
         ./cosmos/centauri.nix
+        ./cosmos/cvm.nix
         ./cosmos/hermes.nix
         ./cosmos/osmosis.nix
       ];

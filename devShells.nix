@@ -12,6 +12,8 @@
       default = pkgs.mkShell {
         buildInputs = runtimeInputs;
         shellHook = ''
+          CW_CVM_OUTPOST_WASM=${pkgs.cw-cvm-outpost}/lib/cw_cvm_outpost.wasm
+          export CW_CVM_OUTPOST_WASM        
           HOME=${pkgs.networksLib.networks.osmosis.devnet.HOME}
           OSMOSISD_ENVIRONMENT="~/.osmosisd"
           export HOME

@@ -16,10 +16,12 @@
         name = "centauri-init";
         runtimeInputs = runtimeInputs;
         text = ''
+          CW_CVM_OUTPOST_WASM=${pkgs.cw-cvm-outpost}/lib/cw_cvm_outpost.wasm
+          export CW_CVM_OUTPOST_WASM             
           ${sh.export networks.pica.devnet}
           ${sh.export networks.devnet.mnemonics}
-          source ${./cosmos_sdk.sh}          
-          ${builtins.readFile ./centauri-init.sh}
+          ${builtins.readFile ./cosmos_sdk.sh}          
+          ${builtins.readFile ./centauri-cvm-init.sh}
         '';
       };
     };
