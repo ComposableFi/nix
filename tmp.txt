@@ -132,9 +132,7 @@
           ${bashTools.export pkgs.networksLib.pica.devnet}
           KEY=${cosmosTools.cvm.centauri}
 
-          if [[ $(curl "127.0.0.1:$CONSENSUS_RPC_PORT/block" | jq .result.block.header.height -r) -lt 5 ]]; then
-           sleep 5
-          fi
+
 
           function init_cvm() {
               local INSTANTIATE=$1
@@ -150,7 +148,7 @@
               EXECUTOR_CODE_ID=2
               sleep $BLOCK_SECONDS
               "$BINARY" tx wasm store  ${
-                self.inputs.cosmos.packages.${system}.cw20-base
+                self.inputs.cosmos.packages.${system}.cw20-basegit 
               }/lib/cw20_base.wasm --chain-id="$CHAIN_ID"  --node "tcp://localhost:$CONSENSUS_RPC_PORT" --output json --yes --gas 25000000 --fees 920000166$FEE ${log} --keyring-backend test  --home "$CHAIN_DATA" --from "$KEY" --keyring-dir "$KEYRING_TEST"
 
               sleep $BLOCK_SECONDS

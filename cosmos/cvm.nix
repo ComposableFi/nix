@@ -18,6 +18,7 @@
         text = ''
           ${sh.export networks.pica.devnet}
           ${sh.export networks.devnet.mnemonics}
+          source ${./cosmos_sdk.sh}          
           ${builtins.readFile ./centauri-init.sh}
         '';
       };

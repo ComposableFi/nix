@@ -35,6 +35,7 @@
         host = "127.0.0.1";
         port = networksLib.networks.osmosis.devnet.CONSENSUS_RPC_PORT;
       };
+      
       availability = {restart = "always";};
     };
     osmosis-centauri-init = {
