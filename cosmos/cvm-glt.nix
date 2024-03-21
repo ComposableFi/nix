@@ -1,10 +1,10 @@
 {
   OSMOSIS_ADMIN,
   CENTAURI_ADMIN,
-  OSMOSIS_EXECUTOR_CODE_ID,
-  CENTAURI_EXECUTOR_CODE_ID,
-  CENTAURI_OUTPOST_CONTRACT_ADDRESS,
-  OSMOSIS_OUTPOST_CONTRACT_ADDRESS,
+  OSMOSIS_CW_CVM_EXECUTOR_CODE_ID,
+  CENTAURI_CW_CVM_EXECUTOR_CODE_ID,
+  CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS,
+  OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS,
 }: {
   config = {
     force = [
@@ -34,8 +34,8 @@
           };
           outpost = {
             "cosm_wasm" = {
-              contract = OSMOSIS_OUTPOST_CONTRACT_ADDRESS;
-              "executor_code_id" = OSMOSIS_EXECUTOR_CODE_ID;
+              contract = OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS;
+              "executor_code_id" = OSMOSIS_CW_CVM_EXECUTOR_CODE_ID;
               admin = OSMOSIS_ADMIN;
             };
           };
@@ -62,8 +62,8 @@
           };
           outpost = {
             "cosm_wasm" = {
-              contract = CENTAURI_OUTPOST_CONTRACT_ADDRESS;
-              executor_code_id = CENTAURI_EXECUTOR_CODE_ID;
+              contract = CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS;
+              executor_code_id = CENTAURI_CW_CVM_EXECUTOR_CODE_ID;
               admin = CENTAURI_ADMIN;
             };
           };

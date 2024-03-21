@@ -51,23 +51,21 @@
       cvm-config = pkgs.writeShellApplication {
         name = "cvm-config";
         text = ''
+          ${builtins.readFile ./cosmos_sdk.sh}
 
-                    export CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat ${networks.pica.devnet.CHAIN_DATA}/CVM_OUTPOST_CONTRACT_ADDRESS)
-                    export CENTAURI_CW_CVM_EXECUTOR_CODE_ID=$(cat ${networks.pica.devnet.CHAIN_DATA}/CW_CVM_EXECUTOR_CODE_ID)
+          ${sh.export networks.osmosis.devnet}
+          OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
+          OSMOSIS_CW_CVM_EXECUTOR_CODE_ID=$(cat "$CHAIN_DATA/CW_CVM_EXECUTOR_CODE_ID")
+          OSMOSIS_ADMIN=$(cosmos_sdk_show_key APPLICATION2)
 
-          # OSMOSIS_ADMIN, CENTAURI_ADMIN, OSMOSIS_EXECUTOR_CODE_ID, CENTAURI_EXECUTOR_CODE_ID, CENTAURI_OUTPOST_CONTRACT_ADDRESS, OSMOSIS_OUTPOST_CONTRACT_ADDRESS
-                    ${sh.export pkgs.networksLib.osmosis.devnet}
-                    export OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$HOME/.osmosisd/CVM_OUTPOST_CONTRACT_ADDRESS")
-                    export OSMOSIS_CW_CVM_EXECUTOR_CODE_ID=$(cat "$HOME/.osmosisd/CW_CVM_EXECUTOR_CODE_ID")
+          ${sh.export networks.pica.devnet}
+          CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat $CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS)
+          CENTAURI_CW_CVM_EXECUTOR_CODE_ID=$(cat $CHAIN_DATA/CW_CVM_EXECUTOR_CODE_ID)
+          CENTAURI_ADMIN=$(cosmos_sdk_show_key APPLICATION2)
 
-                    CW_OUTPOST_CONTRACT_ADDRESS=$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS
+          RESULT=$(nix eval --file ./cosmos/cvm-glt.nix --json --arg OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS "$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS" --arg OSMOSIS_CW_CVM_EXECUTOR_CODE_ID "$OSMOSIS_CW_CVM_EXECUTOR_CODE_ID" --arg OSMOSIS_ADMIN "$OSMOSIS_ADMIN" --arg CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS "$CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS" --arg CENTAURI_CW_CVM_EXECUTOR_CODE_ID "$CENTAURI_CW_CVM_EXECUTOR_CODE_ID" --arg CENTAURI_ADMIN "$CENTAURI_ADMIN")
 
-
-                    FORCE_CONFIG=$(cat << EOF
-                      ${builtins.readFile ../cvm.json}
-                    EOF
-                    )
-
+          echo "$RESULT" > $HOME/cvm-glt.json
         '';
       };
     };
