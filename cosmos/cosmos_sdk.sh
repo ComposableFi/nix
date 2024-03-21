@@ -1,4 +1,5 @@
 
+# waits for minimal block length
 cosmos_sdk_wait_for_block_height() {
     if test "$(curl --silent --show-error "127.0.0.1:$CONSENSUS_RPC_PORT/block" | jq .result.block.header.height -r)" -lt 5
     then
@@ -6,14 +7,17 @@ cosmos_sdk_wait_for_block_height() {
     fi
 }
 
+# shows key for moniker
 cosmos_sdk_show_key() {
     centaurid keys show "$1" --keyring-backend test  | jq .address -r
 }
 
+# returns the current block height
 cosmos_sdk_height() {
     curl --silent --show-error "0.0.0.0:$CONSENSUS_RPC_PORT/block" | jq .result.block.header.height -r
 }
 
+# waitss for next block from now
 cosmos_sdk_next() {
     local -r HEIGHT=$(curl --silent --show-error "0.0.0.0:$CONSENSUS_RPC_PORT/block" | jq .result.block.header.height -r)
     # shellcheck disable=SC2046
@@ -23,6 +27,7 @@ cosmos_sdk_next() {
     done
 }
 
+# upload wasm file and return code id
 cosmos_sdk_upload_wasm() {
      centaurid tx wasm store "$1" --chain-id="$CHAIN_ID" --node="tcp://0.0.0.0:$CONSENSUS_RPC_PORT" --output=json --yes --gas=25000000 --fees="920000166$FEE" --from=APPLICATION2 --trace --log_level=trace
     cosmos_sdk_next
