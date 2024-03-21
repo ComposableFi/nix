@@ -35,7 +35,7 @@
         host = "127.0.0.1";
         port = networksLib.networks.osmosis.devnet.CONSENSUS_RPC_PORT;
       };
-      
+
       availability = {restart = "always";};
     };
     osmosis-centauri-init = {
@@ -56,6 +56,25 @@
         "osmosis-centauri-init".condition = "process_completed_successfully";
       };
       namespace = "bridge";
+    };
+    osmosis-cvm-init = {
+      command = packages.osmosis-cvm-init;
+      log_location = "${log_directory}/osmosis-cvm-init.log";
+      availability = {restart = "on_failure";};
+      depends_on = {
+          "osmosis-centauri-init".condition = "process_completed_successfully";
+      };
+      namespace = "cvm";
+    };
+
+    centauri-cvm-init = {
+      command = packages.centauri-cvm-init;
+      log_location = "${log_directory}/centauri-cvm-init.log";
+      availability = {restart = "on_failure";};
+      depends_on = {
+          "osmosis-centauri-init".condition = "process_completed_successfully";
+      };
+      namespace = "cvm";
     };
   };
 }
