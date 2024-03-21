@@ -11,7 +11,7 @@
       settings = import ./cosmos-devnet.nix {
         inherit (self') packages;
         inherit (pkgs) networksLib;
-        log_directory = pkgs.networksLib.networks.devnet.directories.DEVNET_LOG_DIRECTORY;
+        log_directory = "$HOME/.devnet";
       };
     };
   };
