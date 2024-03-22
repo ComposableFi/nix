@@ -50,6 +50,7 @@
 
       cvm-config = pkgs.writeShellApplication {
         name = "cvm-config";
+        runtimeInputs = runtimeInputs;
         text = ''
           ${builtins.readFile ./cosmos_sdk.sh}
 
@@ -59,13 +60,14 @@
           OSMOSIS_ADMIN=$(cosmos_sdk_show_key APPLICATION2)
 
           ${sh.export networks.pica.devnet}
-          CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat $CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS)
-          CENTAURI_CW_CVM_EXECUTOR_CODE_ID=$(cat $CHAIN_DATA/CW_CVM_EXECUTOR_CODE_ID)
+          CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
+          CENTAURI_CW_CVM_EXECUTOR_CODE_ID=$(cat "$CHAIN_DATA/CW_CVM_EXECUTOR_CODE_ID")
+          echo "$BINARY"
           CENTAURI_ADMIN=$(cosmos_sdk_show_key APPLICATION2)
 
           RESULT=$(nix eval --file ./cosmos/cvm-glt.nix --json --arg OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS "$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS" --arg OSMOSIS_CW_CVM_EXECUTOR_CODE_ID "$OSMOSIS_CW_CVM_EXECUTOR_CODE_ID" --arg OSMOSIS_ADMIN "$OSMOSIS_ADMIN" --arg CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS "$CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS" --arg CENTAURI_CW_CVM_EXECUTOR_CODE_ID "$CENTAURI_CW_CVM_EXECUTOR_CODE_ID" --arg CENTAURI_ADMIN "$CENTAURI_ADMIN")
 
-          echo "$RESULT" > $HOME/cvm-glt.json
+          echo "$RESULT" > "$HOME/cvm-glt.json"
         '';
       };
     };
