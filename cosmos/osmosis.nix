@@ -16,6 +16,7 @@
         name = "osmosis-init";
         runtimeInputs = runtimeInputs;
         text = ''
+          ${sh.export networks.devnet.directories}
           ${sh.export networks.osmosis.devnet}
           ${sh.export networks.devnet.mnemonics}
           ${builtins.readFile ./osmosis-init.sh}
@@ -26,6 +27,7 @@
         name = "osmosis-start";
         runtimeInputs = runtimeInputs;
         text = ''
+          ${sh.export networks.devnet.directories}
           ${sh.export networks.osmosis.devnet}
           ${sh.export networks.devnet.mnemonics}
           ${builtins.readFile ./osmosis-start.sh}
@@ -36,6 +38,7 @@
         name = "osmosis-pools-init";
         runtimeInputs = runtimeInputs;
         text = ''
+          ${sh.export networks.devnet.directories}
           ${sh.export networks.osmosis.devnet}
           ${sh.export networks.devnet.mnemonics}
           POOL_CONFIG="${./osmosis-gamm-pool-pica-osmo.json}"

@@ -16,6 +16,7 @@
         name = "centauri-init";
         runtimeInputs = runtimeInputs;
         text = ''
+          ${sh.export networks.devnet.directories}
           CW_CVM_OUTPOST_WASM=${pkgs.cw-cvm-outpost}/lib/cw_cvm_outpost.wasm
           CW_CVM_EXECUTOR_WASM=${pkgs.cw-cvm-executor}/lib/cw_cvm_executor.wasm
           CW_MANTIS_ORDER_WASM=${pkgs.cw-mantis-order}/lib/cw_mantis_order.wasm
@@ -24,6 +25,8 @@
           export CW_MANTIS_ORDER_WASM
           ${sh.export networks.pica.devnet}
           ${sh.export networks.devnet.mnemonics}
+          echo "=========================="
+          echo "$HOME"
           ${builtins.readFile ./cosmos_sdk.sh}
           ${builtins.readFile ./cvm-init.sh}
         '';
@@ -33,6 +36,7 @@
         name = "osmosis-init";
         runtimeInputs = runtimeInputs;
         text = ''
+          ${sh.export networks.devnet.directories}
           CW_CVM_OUTPOST_WASM=${pkgs.cw-cvm-outpost}/lib/cw_cvm_outpost.wasm
           CW_CVM_EXECUTOR_WASM=${pkgs.cw-cvm-executor}/lib/cw_cvm_executor.wasm
           CW_MANTIS_ORDER_WASM=${pkgs.cw-mantis-order}/lib/cw_mantis_order.wasm
@@ -52,19 +56,27 @@
         name = "cvm-config";
         runtimeInputs = runtimeInputs;
         text = ''
+          ${sh.export networks.devnet.directories}
+          echo "1=========================="
+          echo "$HOME"
           ${builtins.readFile ./cosmos_sdk.sh}
-
+          echo "2=========================="
+          echo "$HOME"
           ${sh.export networks.osmosis.devnet}
+          echo "3=========================="
+          echo "$HOME"
           OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
           OSMOSIS_CW_CVM_EXECUTOR_CODE_ID=$(cat "$CHAIN_DATA/CW_CVM_EXECUTOR_CODE_ID")
           OSMOSIS_ADMIN=$(cosmos_sdk_show_key APPLICATION2)
-
+          echo "4===================================================="
+          echo "$HOME"
           ${sh.export networks.pica.devnet}
           CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
           CENTAURI_CW_CVM_EXECUTOR_CODE_ID=$(cat "$CHAIN_DATA/CW_CVM_EXECUTOR_CODE_ID")
           echo "$BINARY"
           CENTAURI_ADMIN=$(cosmos_sdk_show_key APPLICATION2)
-
+          echo "=========================="
+          echo "$HOME"
           RESULT=$(nix eval --file ./cosmos/cvm-glt.nix --json --arg OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS "$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS" --arg OSMOSIS_CW_CVM_EXECUTOR_CODE_ID "$OSMOSIS_CW_CVM_EXECUTOR_CODE_ID" --arg OSMOSIS_ADMIN "$OSMOSIS_ADMIN" --arg CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS "$CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS" --arg CENTAURI_CW_CVM_EXECUTOR_CODE_ID "$CENTAURI_CW_CVM_EXECUTOR_CODE_ID" --arg CENTAURI_ADMIN "$CENTAURI_ADMIN")
 
           echo "$RESULT" > "$HOME/cvm-glt.json"

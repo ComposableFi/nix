@@ -11,12 +11,14 @@
     devShells = {
       default = pkgs.mkShell {
         buildInputs = runtimeInputs;
-        shellHook = ''
+        shellHook = let
+          networks = pkgs.networksLib.networks;
+          sh = pkgs.networksLib.sh;
+        in ''
+          ${sh.export networks.devnet.directories}
           CW_CVM_OUTPOST_WASM=${pkgs.cw-cvm-outpost}/lib/cw_cvm_outpost.wasm
           export CW_CVM_OUTPOST_WASM
-          HOME=${pkgs.networksLib.networks.osmosis.devnet.HOME}
-          OSMOSISD_ENVIRONMENT="~/.osmosisd"
-          export HOME
+          OSMOSISD_ENVIRONMENT="$HOME/.osmosisd"
           export OSMOSISD_ENVIRONMENT
           echo 'chain-id = "osmosis-dev"' > ~/.osmosisd/config/client.toml
           echo 'keyring-backend = "test"' >> ~/.osmosisd/config/client.toml

@@ -18,7 +18,7 @@ if [[ ! -d "$CHAIN_DATA" ]]; then
 
     mkdir --parents "$CHAIN_DATA/data/cs.wal"
 
-    echo "$VAL_MNEMONIC_1" | osmosisd init --chain-id="$CHAIN_ID" --home "$CHAIN_DATA" --recover "VAL_MNEMONIC_1"
+    echo "$VAL_MNEMONIC_1" | osmosisd init --chain-id="$CHAIN_ID" --recover "VAL_MNEMONIC_1"
 
     function dasel-genesis() {
         dasel put --type string --file "$CHAIN_DATA/config/genesis.json" --value "$2" "$1"
@@ -94,7 +94,7 @@ if [[ ! -d "$CHAIN_DATA" ]]; then
 
     function add-genesis-account() {
         ACCOUNT=$(add_key "$1" "$2")
-        osmosisd add-genesis-account "$ACCOUNT" 100000000000000000uosmo,100000000000uion,100000000000stake,10000000000000ibc/3262D378E1636BE287EC355990D229DCEB828F0C60ED5049729575E235C60E8B --home "$CHAIN_DATA"
+        osmosisd add-genesis-account "$ACCOUNT" 100000000000000000uosmo,100000000000uion,100000000000stake,10000000000000ibc/3262D378E1636BE287EC355990D229DCEB828F0C60ED5049729575E235C60E8B
     }
 
     add-genesis-account "$VAL_MNEMONIC_1" "VAL_MNEMONIC_1"
@@ -104,8 +104,8 @@ if [[ ! -d "$CHAIN_DATA" ]]; then
     add-genesis-account "$APPLICATION1" "APPLICATION1"
     add-genesis-account "$APPLICATION2" "APPLICATION2"
 
-    osmosisd gentx "VAL_MNEMONIC_1" 500000000uosmo --keyring-backend=test --chain-id=$CHAIN_ID --home "$CHAIN_DATA"
-    osmosisd collect-gentxs --home "$CHAIN_DATA"
+    osmosisd gentx "VAL_MNEMONIC_1" 500000000uosmo --keyring-backend=test --chain-id=$CHAIN_ID
+    osmosisd collect-gentxs
     dasel put --type string --file "$CONFIG_FOLDER/config.toml" --value "" '.p2p.seeds'
 
     dasel put --type string --file "$CONFIG_FOLDER/config.toml" --value "*" '.rpc.cors_allowed_origins.[]'

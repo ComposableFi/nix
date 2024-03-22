@@ -23,7 +23,7 @@ then
     mkdir --parents "$CHAIN_DATA"
     mkdir --parents "$CHAIN_DATA/config/gentx"
     mkdir --parents "$KEYRING_TEST"
-    echo "$VAL_MNEMONIC_1" | centaurid init "$CHAIN_ID" --chain-id "$CHAIN_ID" --default-denom "$FEE" --home "$CHAIN_DATA"  --recover
+    echo "$VAL_MNEMONIC_1" | centaurid init "$CHAIN_ID" --chain-id "$CHAIN_ID" --default-denom "$FEE"  --recover
 
     jq-genesis() {
         jq -r  "$1"  > "$CHAIN_DATA/config/genesis-update.json"  < "$CHAIN_DATA/config/genesis.json"
@@ -76,13 +76,13 @@ then
 
 
     add_key () {
-        echo "$1" | centaurid keys add "$2" --recover --keyring-backend test   >> /dev/null 2>&1        
-        centaurid keys show "$2" --keyring-backend test  | jq .address -r
+        echo "$1" | centaurid keys add "$2" --recover --keyring-backend=test   >> /dev/null 2>&1        
+        centaurid keys show "$2" --keyring-backend=test  | jq .address -r
     }
     
     add-genesis-account () {
         echo "adding $1"
-        centaurid --keyring-backend test add-genesis-account "$1" "10000000000000000000000000000ppica,100000000000000000000000ptest,100000000000000000000000pdemo" --home "$CHAIN_DATA" 
+        centaurid --keyring-backend=test add-genesis-account "$1" "10000000000000000000000000000ppica,100000000000000000000000ptest,100000000000000000000000pdemo" 
     }    
 
     ALICE_ADDRESS=$(add_key "$ALICE" "ALICE")
@@ -119,8 +119,8 @@ then
     add-genesis-account "$TEST2_ADDRESS"
         
 
-    centaurid --keyring-backend test  --home "$CHAIN_DATA" gentx "VAL_MNEMONIC_1" "250000000000000ppica" --chain-id="$CHAIN_ID" --amount="250000000000000ppica"
-    centaurid collect-gentxs --home "$CHAIN_DATA"  --gentx-dir "$CHAIN_DATA/config/gentx"
+    centaurid --keyring-backend=test  gentx "VAL_MNEMONIC_1" "250000000000000ppica" --chain-id="$CHAIN_ID" --amount="250000000000000ppica"
+    centaurid collect-gentxs  --gentx-dir "$CHAIN_DATA/config/gentx"
 else
     echo "WARNING: REUSING EXISTING DATA FOLDER"
 fi

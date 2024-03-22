@@ -133,6 +133,7 @@
         runtimeInputs = runtimeInputs;
         name = "osmosis-centauri-init";
         text = ''
+          ${sh.export networks.devnet.directories}
           ${sh.export networks.osmosis-centauri.devnet}
           ${sh.export networks.devnet.mnemonics}
           HERMES_CONFIG=${builtins.toFile "hermes-config.toml" hermes-config}
@@ -144,6 +145,7 @@
         runtimeInputs = runtimeInputs;
         name = "osmosis-centauri-start";
         text = ''
+          ${sh.export networks.devnet.directories}
           ${sh.export networks.devnet.mnemonics}
           ${sh.export networks.osmosis-centauri.devnet}
           HOME=$RELAY_DATA

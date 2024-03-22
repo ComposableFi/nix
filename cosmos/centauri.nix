@@ -16,6 +16,7 @@
         name = "centauri-init";
         runtimeInputs = runtimeInputs;
         text = ''
+          ${sh.export networks.devnet.directories}
           ${sh.export networks.pica.devnet}
           ${sh.export networks.devnet.mnemonics}
           ${builtins.readFile ./centauri-init.sh}
@@ -26,6 +27,7 @@
         name = "centaurid-start";
         runtimeInputs = runtimeInputs;
         text = ''
+          ${sh.export networks.devnet.directories}
           ${sh.export networks.pica.devnet}
           ${sh.export networks.devnet.mnemonics}
           ${builtins.readFile ./centauri-start.sh}
