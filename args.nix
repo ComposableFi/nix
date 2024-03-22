@@ -29,7 +29,6 @@
           process-compose.overlays.default
           networks.overlays.default
           cosmos.overlays.default
-          # cosmos.overlays.cosmosNixPackages
           (final: prev: {
             cw-cvm-executor = self.inputs.composable-vm.packages."${system}".cw-cvm-executor;
             cw-cvm-outpost = self.inputs.composable-vm.packages."${system}".cw-cvm-outpost;
