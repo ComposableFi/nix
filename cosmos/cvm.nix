@@ -57,27 +57,20 @@
         runtimeInputs = runtimeInputs;
         text = ''
           ${sh.export networks.devnet.directories}
-          echo "1=========================="
-          echo "$HOME"
           ${builtins.readFile ./cosmos_sdk.sh}
-          echo "2=========================="
-          echo "$HOME"
+
           ${sh.export networks.osmosis.devnet}
-          echo "3=========================="
-          echo "$HOME"
           OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
           OSMOSIS_CW_CVM_EXECUTOR_CODE_ID=$(cat "$CHAIN_DATA/CW_CVM_EXECUTOR_CODE_ID")
           OSMOSIS_ADMIN=$(cosmos_sdk_show_key APPLICATION2)
-          echo "4===================================================="
-          echo "$HOME"
+
           ${sh.export networks.pica.devnet}
           CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
           CENTAURI_CW_CVM_EXECUTOR_CODE_ID=$(cat "$CHAIN_DATA/CW_CVM_EXECUTOR_CODE_ID")
           echo "$BINARY"
           CENTAURI_ADMIN=$(cosmos_sdk_show_key APPLICATION2)
-          echo "=========================="
-          echo "$HOME"
-          RESULT=$(nix eval --file ./cosmos/cvm-glt.nix --json --arg OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS "$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS" --arg OSMOSIS_CW_CVM_EXECUTOR_CODE_ID "$OSMOSIS_CW_CVM_EXECUTOR_CODE_ID" --arg OSMOSIS_ADMIN "$OSMOSIS_ADMIN" --arg CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS "$CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS" --arg CENTAURI_CW_CVM_EXECUTOR_CODE_ID "$CENTAURI_CW_CVM_EXECUTOR_CODE_ID" --arg CENTAURI_ADMIN "$CENTAURI_ADMIN")
+
+          RESULT=$(nix eval --expr "import ${./cvm-glt.nix} { OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS  = \"$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS\";  OSMOSIS_CW_CVM_EXECUTOR_CODE_ID  = \"$OSMOSIS_CW_CVM_EXECUTOR_CODE_ID\";  OSMOSIS_ADMIN  = \"$OSMOSIS_ADMIN\";  CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS  = \"$CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS\";  CENTAURI_CW_CVM_EXECUTOR_CODE_ID  = \"$CENTAURI_CW_CVM_EXECUTOR_CODE_ID\";  CENTAURI_ADMIN  = \"$CENTAURI_ADMIN\"; }" --json --impure --experimental-features 'nix-command flakes')
 
           echo "$RESULT" > "$HOME/cvm-glt.json"
         '';
