@@ -5,7 +5,8 @@
   CENTAURI_CW_CVM_EXECUTOR_CODE_ID,
   CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS,
   OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS,
-}: {
+}:
+with builtins; {
   config = {
     force = [
       {
@@ -35,7 +36,7 @@
           outpost = {
             "cosm_wasm" = {
               contract = OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS;
-              "executor_code_id" = OSMOSIS_CW_CVM_EXECUTOR_CODE_ID;
+              executor_code_id = OSMOSIS_CW_CVM_EXECUTOR_CODE_ID;
               admin = OSMOSIS_ADMIN;
             };
           };

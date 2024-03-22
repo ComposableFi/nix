@@ -87,5 +87,23 @@
       };
       namespace = "cvm";
     };
+    centauri-cvm-config = {
+      command = packages.centauri-cvm-config;
+      log_location = "${log_directory}/centauri-cvm-config.log";
+      availability = {restart = "on_failure";};
+      depends_on = {
+        "cvm-config".condition = "process_completed_successfully";
+      };
+      namespace = "cvm";
+    };
+    osmosis-cvm-config = {
+      command = packages.osmosis-cvm-config;
+      log_location = "${log_directory}/osmosis-cvm-config.log";
+      availability = {restart = "on_failure";};
+      depends_on = {
+        "cvm-config".condition = "process_completed_successfully";
+      };
+      namespace = "cvm";
+    };
   };
 }

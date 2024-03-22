@@ -70,42 +70,48 @@
           echo "$BINARY"
           CENTAURI_ADMIN=$(cosmos_sdk_show_key APPLICATION2)
 
-          RESULT=$(nix eval --expr "import ${./cvm-glt.nix} { OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS  = \"$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS\";  OSMOSIS_CW_CVM_EXECUTOR_CODE_ID  = \"$OSMOSIS_CW_CVM_EXECUTOR_CODE_ID\";  OSMOSIS_ADMIN  = \"$OSMOSIS_ADMIN\";  CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS  = \"$CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS\";  CENTAURI_CW_CVM_EXECUTOR_CODE_ID  = \"$CENTAURI_CW_CVM_EXECUTOR_CODE_ID\";  CENTAURI_ADMIN  = \"$CENTAURI_ADMIN\"; }" --json --impure --experimental-features 'nix-command flakes')
+          CVM_GLT=$(nix eval --expr "import ${./cvm-glt.nix} { OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS  = \"$OSMOSIS_CVM_OUTPOST_CONTRACT_ADDRESS\";  OSMOSIS_CW_CVM_EXECUTOR_CODE_ID  = $OSMOSIS_CW_CVM_EXECUTOR_CODE_ID;  OSMOSIS_ADMIN  = \"$OSMOSIS_ADMIN\";  CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS  = \"$CENTAURI_CVM_OUTPOST_CONTRACT_ADDRESS\";  CENTAURI_CW_CVM_EXECUTOR_CODE_ID  = $CENTAURI_CW_CVM_EXECUTOR_CODE_ID;  CENTAURI_ADMIN  = \"$CENTAURI_ADMIN\"; }" --json --impure --experimental-features 'nix-command flakes')
+          echo "$CVM_GLT"
+          echo "$CVM_GLT" > "$HOME/cvm-glt.json"
+        '';
+      };
 
-          echo "$RESULT" > "$HOME/cvm-glt.json"
+      centauri-cvm-config = pkgs.writeShellApplication {
+        name = "centauri-cvm-config";
+        runtimeInputs = runtimeInputs;
+        text = ''
+          ${sh.export networks.devnet.directories}
+          ${builtins.readFile ./cosmos_sdk.sh}
+          ${sh.export networks.pica.devnet}
+
+          CVM_GLT=$(cat "$HOME/cvm-glt.json")
+          CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
+
+          "$BINARY" tx wasm execute "$CVM_OUTPOST_CONTRACT_ADDRESS" "$CVM_GLT" --chain-id="$CHAIN_ID"  --node="tcp://localhost:$CONSENSUS_RPC_PORT" --output=json --yes --gas=25000000 --fees="920000166$FEE" --from="APPLICATION2"
+
+          cosmos_sdk_next
+
+          "$BINARY" query wasm contract-state all "$CVM_OUTPOST_CONTRACT_ADDRESS" --chain-id="$CHAIN_ID"  --node="tcp://localhost:$CONSENSUS_RPC_PORT" --output=json
+        '';
+      };
+      osmosis-cvm-config = pkgs.writeShellApplication {
+        name = "osmosis-cvm-config";
+        runtimeInputs = runtimeInputs;
+        text = ''
+          ${sh.export networks.devnet.directories}
+          ${builtins.readFile ./cosmos_sdk.sh}
+          ${sh.export networks.osmosis.devnet}
+
+          CVM_GLT=$(cat "$HOME/cvm-glt.json")
+          CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
+
+          "$BINARY" tx wasm execute "$CVM_OUTPOST_CONTRACT_ADDRESS" "$CVM_GLT" --chain-id="$CHAIN_ID"  --node="tcp://localhost:$CONSENSUS_RPC_PORT" --output=json --yes --gas=25000000 --fees="920000166$FEE" --from="APPLICATION2"
+
+          cosmos_sdk_next
+
+          "$BINARY" query wasm contract-state all "$CVM_OUTPOST_CONTRACT_ADDRESS" --chain-id="$CHAIN_ID"  --node="tcp://localhost:$CONSENSUS_RPC_PORT" --output=json
         '';
       };
     };
   };
 }
-# centaurid-cvm-config = pkgs.writeShellApplication {
-#   name = "centaurid-cvm-config";
-#   runtimeInputs = devnetTools.withBaseContainerTools ++ [
-#     centaurid
-#     pkgs.jq
-#     self.inputs.cvm.packages."${system}".cw-cvm-executor
-#     self.inputs.cvm.packages."${system}".cw-cvm-outpost
-#   ];
-#   text = ''
-#     KEY=${cosmosTools.cvm.centauri}
-#     ${bashTools.export pkgs.networksLib.pica.devnet}
-#     PORT=26657
-#     BLOCK_SECONDS=5
-#     FEE=ppica
-#     BINARY=centaurid
-#     CENTAURI_OUTPOST_CONTRACT_ADDRESS=$(cat $CHAIN_DATA/outpost_contract_address)
-#     CENTAURI_EXECUTOR_CODE_ID=$(cat $CHAIN_DATA/executor_code_id)
-#     OSMOSIS_OUTPOST_CONTRACT_ADDRESS=$(cat "$HOME/.osmosisd/outpost_contract_address")
-#     OSMOSIS_EXECUTOR_CODE_ID=$(cat "$HOME/.osmosisd/executor_code_id")
-#     NEUTRON_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/outpost_contract_address")
-#     NEUTRON_EXECUTOR_CODE_ID=$(cat "$CHAIN_DATA/executor_code_id")
-#     FORCE_CONFIG=$(cat << EOF
-#         ${builtins.readFile ./../cvm.json}
-#     EOF
-#     )
-#     "$BINARY" tx wasm execute "$CENTAURI_OUTPOST_CONTRACT_ADDRESS" "$FORCE_CONFIG" --chain-id="$CHAIN_ID"  --node "tcp://localhost:$PORT" --output json --yes --gas 25000000 --fees 920000166"$FEE" ${log} --keyring-backend test  --home "$CHAIN_DATA" --from APPLICATION1 --keyring-dir "$KEYRING_TEST" ${log}
-#     sleep $BLOCK_SECONDS
-#     "$BINARY" query wasm contract-state all "$CENTAURI_OUTPOST_CONTRACT_ADDRESS" --chain-id="$CHAIN_ID"  --node "tcp://localhost:$PORT" --output json --home "$CHAIN_DATA"
-#   '';
-# };
-
