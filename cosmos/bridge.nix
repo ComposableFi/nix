@@ -15,7 +15,7 @@
         modules = [
           {
             config.hermes.config = {
-              global.log_level = "trace";
+              global.log_level = "debug";
               mode.clients = {
                 misbehaviour = true;
                 refresh = true;
@@ -27,14 +27,14 @@
                 tx_confirmation = true;
               };
               rest = {
-                enabled = false;
+                enabled = true;
                 host = "0.0.0.0";
-                port = 12345;
+                port = networks.osmosis-centauri.devnet.REST_PORT;
               };
               telemetry = {
-                enabled = false;
+                enabled = true;
                 host = "0.0.0.0";
-                port = 12345;
+                port = networks.osmosis-centauri.devnet.TELEMETRY_PORT;
               };
               chains = [
                 {

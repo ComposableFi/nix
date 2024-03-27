@@ -97,6 +97,8 @@ if [[ ! -d "$CHAIN_DATA" ]]; then
         osmosisd add-genesis-account "$ACCOUNT" 100000000000000000uosmo,100000000000uion,100000000000stake,10000000000000ibc/3262D378E1636BE287EC355990D229DCEB828F0C60ED5049729575E235C60E8B
     }
 
+    add-genesis-account "$ALICE" "ALICE"
+    add-genesis-account "$BOB" "BOB"
     add-genesis-account "$VAL_MNEMONIC_1" "VAL_MNEMONIC_1"
     add-genesis-account "$FAUCET_MNEMONIC" "FAUCET_MNEMONIC"
     add-genesis-account "$RLY_MNEMONIC_3" "RLY_MNEMONIC_3"

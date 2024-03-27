@@ -24,7 +24,7 @@
       };
 
       centauri-start = pkgs.writeShellApplication {
-        name = "centaurid-start";
+        name = "centauri-start";
         runtimeInputs = runtimeInputs;
         text = ''
           ${sh.export networks.devnet.directories}

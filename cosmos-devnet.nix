@@ -3,7 +3,7 @@
   packages,
   log_directory,
 }: {
-  log_level = "trace";
+  log_level = "debug";
   log_location = "${log_directory}/cosmos-devnet.log";
 
   processes = {
@@ -52,6 +52,13 @@
       command = packages.osmosis-centauri-start;
       log_location = "${log_directory}/osmosis-centauri-start.log";
       availability = {restart = "always";};
+      readiness_probe = {
+        http_get = {
+          host = "0.0.0.0";
+          port = networksLib.networks.osmosis-centauri.devnet.REST_PORT;
+          path = "/version";
+        };
+      };
       depends_on = {
         "osmosis-centauri-init".condition = "process_completed_successfully";
       };
@@ -104,6 +111,26 @@
         "cvm-config".condition = "process_completed_successfully";
       };
       namespace = "cvm";
+    };
+
+    osmosis-to-centauri-transfer = {
+      command = packages.osmosis-to-centauri-transfer;
+      log_location = "${log_directory}/osmosis-to-centauri-transfer.log";
+      availability = {restart = "on_failure";};
+      depends_on = {
+        "osmosis-centauri-start".condition = "process_healthy";
+      };
+      namespace = "app";
+    };
+
+    centauri-to-osmosis-transfer = {
+      command = packages.centauri-to-osmosis-transfer;
+      log_location = "${log_directory}/centauri-to-osmosis-transfer.log";
+      availability = {restart = "on_failure";};
+      depends_on = {
+        "osmosis-centauri-start".condition = "process_healthy";
+      };
+      namespace = "app";
     };
   };
 }

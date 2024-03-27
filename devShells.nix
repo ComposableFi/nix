@@ -16,6 +16,7 @@
           sh = pkgs.networksLib.sh;
         in ''
           ${sh.export networks.devnet.directories}
+          ${builtins.readFile ./cosmos/cosmos_sdk.sh}
           CW_CVM_OUTPOST_WASM=${pkgs.cw-cvm-outpost}/lib/cw_cvm_outpost.wasm
           export CW_CVM_OUTPOST_WASM
           OSMOSISD_ENVIRONMENT="$HOME/.osmosisd"

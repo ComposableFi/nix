@@ -51,8 +51,9 @@
         ./process-compose.nix
         ./cosmos/centauri.nix
         ./cosmos/cvm.nix
-        ./cosmos/hermes.nix
+        ./cosmos/bridge.nix
         ./cosmos/osmosis.nix
+        ./cosmos/app.nix
       ];
       systems = ["x86_64-linux"];
       perSystem = {
