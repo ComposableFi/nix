@@ -300,11 +300,11 @@
         "scipy-src": "scipy-src"
       },
       "locked": {
-        "lastModified": 1711487450,
-        "narHash": "sha256-oauXfAcDqi3L7sqswX/hzrmpxMq3ADlbXKaJw0n4aYc=",
+        "lastModified": 1711489865,
+        "narHash": "sha256-PV8rbQflLRZxj/whJKo0tS7h57T/6H5K/DbXt4BsByQ=",
         "owner": "ComposableFi",
         "repo": "composable-vm",
-        "rev": "2f7152e2fc817fc727d628f07125ffa69ce91f7d",
+        "rev": "de808ab07663cf15b3a9267d701f46ec208e2e34",
         "type": "github"
       },
       "original": {

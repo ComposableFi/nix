@@ -1,0 +1,1 @@
+watch --differences --no-title  --interval=3 --exec mantis

@@ -22,6 +22,7 @@
         nix-tree
         osmosis
         hermes
+        mantis
       ];
       pkgs = import self.inputs.nixpkgs {
         inherit system;
@@ -33,6 +34,7 @@
             cw-cvm-executor = self.inputs.composable-vm.packages."${system}".cw-cvm-executor;
             cw-cvm-outpost = self.inputs.composable-vm.packages."${system}".cw-cvm-outpost;
             cw-mantis-order = self.inputs.composable-vm.packages."${system}".cw-mantis-order;
+            mantis = self.inputs.composable-vm.packages."${system}".mantis;
           })
         ];
       };

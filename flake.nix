@@ -54,6 +54,7 @@
         ./cosmos/bridge.nix
         ./cosmos/osmosis.nix
         ./cosmos/app.nix
+        ./cosmos/mantis.nix
       ];
       systems = ["x86_64-linux"];
       perSystem = {
