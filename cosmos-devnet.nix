@@ -132,5 +132,16 @@
       };
       namespace = "app";
     };
+
+    mantis-simulate = {
+      command = packages.mantis-simulate;
+      log_location = "${log_directory}/mantis-simulate.log";
+      availability = {restart = "on_failure";};
+      depends_on = {
+        "centauri-to-osmosis-transfer".condition = "process_completed_successfully";
+        "osmosis-to-centauri-transfer".condition = "process_completed_successfully";
+      };
+      namespace = "app";
+    };
   };
 }
