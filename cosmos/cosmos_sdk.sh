@@ -35,9 +35,12 @@ cosmos_sdk_next() {
     done
 }
 
-# upload wasm file and return code id
+# upload wasm file and return code id, waits for block confirmation
 cosmos_sdk_upload_wasm() {
     "$BINARY" tx wasm store "$1" --chain-id="$CHAIN_ID" --node="tcp://0.0.0.0:$CONSENSUS_RPC_PORT" --output=json --yes --gas=25000000 --fees="920000166$FEE" --from=APPLICATION2 --trace --log_level=debug
     cosmos_sdk_next
-    "$BINARY" query wasm list-code | jq '.code_infos | sort_by(.code_id | tonumber) | last | .code_id' -r    
+    # TODO: ensure not null (select) and filter by SHA of contract
+    local -r CODE_ID=$("$BINARY" query wasm list-code | jq '.code_infos | sort_by(.code_id | tonumber) | last | .code_id' -r)
+
+    echo "$CODE_ID"
 }

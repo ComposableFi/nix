@@ -67,7 +67,7 @@
     osmosis-cvm-init = {
       command = packages.osmosis-cvm-init;
       log_location = "${log_directory}/osmosis-cvm-init.log";
-      availability = {restart = "on_failure";};
+      availability = {restart = "no";};
       depends_on = {
         "osmosis-centauri-init".condition = "process_completed_successfully";
       };
@@ -77,7 +77,7 @@
     centauri-cvm-init = {
       command = packages.centauri-cvm-init;
       log_location = "${log_directory}/centauri-cvm-init.log";
-      availability = {restart = "on_failure";};
+      availability = {restart = "no";};
       depends_on = {
         "osmosis-centauri-init".condition = "process_completed_successfully";
       };
@@ -140,6 +140,19 @@
       depends_on = {
         "centauri-to-osmosis-transfer".condition = "process_completed_successfully";
         "osmosis-to-centauri-transfer".condition = "process_completed_successfully";
+        "centauri-cvm-config".condition = "process_completed_successfully";
+      };
+      namespace = "app";
+    };
+
+    mantis-solver-cow = {
+      command = packages.mantis-solver-cow;
+      log_location = "${log_directory}/mantis-solver-cow.log";
+      availability = {restart = "on_failure";};
+      depends_on = {
+        "centauri-to-osmosis-transfer".condition = "process_completed_successfully";
+        "osmosis-to-centauri-transfer".condition = "process_completed_successfully";
+        "centauri-cvm-config".condition = "process_completed_successfully";
       };
       namespace = "app";
     };
