@@ -299,17 +299,16 @@
         "scipy-src": "scipy-src"
       },
       "locked": {
-        "lastModified": 1712687530,
-        "narHash": "sha256-JwWtxGPQcub097cCQd4WhKwiu0vQrszkM4jk9uAgQcc=",
+        "lastModified": 1712748034,
+        "narHash": "sha256-Wcyxv/lf1nzBVAVY+HwYgK7rQLvBoTVKycq7fNYzEKA=",
         "owner": "ComposableFi",
         "repo": "composable-vm",
-        "rev": "abbc9275906377b8a3eb8aaff9721f789bc964a0",
+        "rev": "4234a6a1f4fc5a5559c995409aa8bb2bf2c8808a",
         "type": "github"
       },
       "original": {
         "owner": "ComposableFi",
         "repo": "composable-vm",
-        "rev": "abbc9275906377b8a3eb8aaff9721f789bc964a0",
         "type": "github"
       }
     },

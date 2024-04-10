@@ -1,4 +1,3 @@
-
 RUST_LOG=debug
 mkdir --parents "$RELAY_DATA"
 HOME=$RELAY_DATA
