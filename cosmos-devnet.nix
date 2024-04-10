@@ -133,9 +133,9 @@
       namespace = "app";
     };
 
-    mantis-simulate = {
-      command = packages.mantis-simulate;
-      log_location = "${log_directory}/mantis-simulate.log";
+    mantis-order-simulate = {
+      command = packages.mantis-order-simulate;
+      log_location = "${log_directory}/mantis-order-simulate.log";
       availability = {restart = "on_failure";};
       depends_on = {
         "centauri-to-osmosis-transfer".condition = "process_completed_successfully";

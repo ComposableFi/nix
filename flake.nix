@@ -30,7 +30,7 @@
       url = "github:strangelove-ventures/bech32cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    composable-vm = {url = "github:ComposableFi/composable-vm/abbc9275906377b8a3eb8aaff9721f789bc964a0";};
+    composable-vm = {url = "github:ComposableFi/composable-vm";};
     networks = {url = "github:ComposableFi/networks";};
 
     eth-pos-devnet-src = {
