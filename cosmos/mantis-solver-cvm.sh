@@ -1,0 +1,1 @@
+mantis solve --rpc-centauri="$RPC_CENTAURI" --grpc-centauri="$GRPC_CENTAURI" --order-contract="$ORDER_CONTRACT" --wallet="$WALLET" --main-chain-id="$CHAIN_ID" --cvm-contract="$CVM_CONTRACT" --router="shortest_path"

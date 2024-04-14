@@ -299,11 +299,11 @@
         "scipy-src": "scipy-src"
       },
       "locked": {
-        "lastModified": 1712766801,
-        "narHash": "sha256-J6RNzSFkVgv4c9bn1sHq+nTIkeBAknMo3byRjdNrMOU=",
+        "lastModified": 1713094370,
+        "narHash": "sha256-bxk00bYb4G+fstjR3+0+fempjSxWnOgcDIXjNSFcBwM=",
         "owner": "ComposableFi",
         "repo": "composable-vm",
-        "rev": "aaebd0e97164f386790a9a1388c6b612aa80153c",
+        "rev": "54dde39e51e903af118ce90feee3148e4f60f980",
         "type": "github"
       },
       "original": {
