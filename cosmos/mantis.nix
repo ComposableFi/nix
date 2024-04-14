@@ -53,7 +53,7 @@
           ${builtins.readFile ./cosmos_sdk.sh}
           RPC_CENTAURI="http://0.0.0.0:$CONSENSUS_RPC_PORT"
           GRPC_CENTAURI="http://0.0.0.0:$GRPCPORT"
-          WALLET="$CHARLIE"
+          WALLET="$BOB"
           ORDER_CONTRACT=$(cat "$CHAIN_DATA/MANTIS_ORDER_CONTRACT_ADDRESS")
           CVM_CONTRACT=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
           ${builtins.readFile ./mantis-solver-cvm.sh}

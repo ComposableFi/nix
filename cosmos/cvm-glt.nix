@@ -210,36 +210,36 @@ with builtins; {
       }
       {
         "force_asset_to_network_map" = {
-          "this_asset" = "158456325028528675187087900673";
-          "other_network" = 3;
-          "other_asset" = "237684487542793012780631851009";
+          "from_asset_id" = "158456325028528675187087900673";
+          "to_network_id" = 3;
+          "to_asset_id" = "237684487542793012780631851009";
         };
       }
       {
         "force_asset_to_network_map" = {
-          "this_asset" = "237684487542793012780631851009";
-          "other_network" = 2;
-          "other_asset" = "158456325028528675187087900673";
+          "from_asset_id" = "237684487542793012780631851009";
+          "to_network_id" = 2;
+          "to_asset_id" = "158456325028528675187087900673";
         };
       }
       {
         "force_asset_to_network_map" = {
-          "this_asset" = "158456325028528675187087900674";
-          "other_network" = 3;
-          "other_asset" = "237684487542793012780631851010";
+          "from_asset_id" = "158456325028528675187087900674";
+          "to_network_id" = 3;
+          "to_asset_id" = "237684487542793012780631851010";
         };
       }
       {
         "force_asset_to_network_map" = {
-          "this_asset" = "237684487542793012780631851010";
-          "other_network" = 2;
-          "other_asset" = "158456325028528675187087900674";
+          "from_asset_id" = "237684487542793012780631851010";
+          "to_network_id" = 2;
+          "to_asset_id" = "158456325028528675187087900674";
         };
       }
       {
        force_assets_venue = {
           venue_id = {
-            exchange_id = "237684489387467420151587012609";
+            exchange = "237684489387467420151587012609";
           };
           from_asset_id = "237684487542793012780631851009";
           to_asset_id = "237684487542793012780631851010";
@@ -248,7 +248,7 @@ with builtins; {
       {
        force_assets_venue = {
           venue_id = {
-            exchange_id = "237684489387467420151587012609";
+            exchange = "237684489387467420151587012609";
           };
           from_asset_id = "237684487542793012780631851010";
           to_asset_id = "237684487542793012780631851009";

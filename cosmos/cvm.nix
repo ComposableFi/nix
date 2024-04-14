@@ -83,7 +83,6 @@
           ${sh.export networks.devnet.directories}
           ${builtins.readFile ./cosmos_sdk.sh}
           ${sh.export networks.pica.devnet}
-
           CVM_GLT=$(cat "$HOME/cvm-glt.json")
           CVM_OUTPOST_CONTRACT_ADDRESS=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
 
@@ -91,7 +90,7 @@
 
           cosmos_sdk_next
 
-          "$BINARY" query wasm contract-state all "$CVM_OUTPOST_CONTRACT_ADDRESS" --chain-id="$CHAIN_ID"  --node="tcp://localhost:$CONSENSUS_RPC_PORT" --output=json
+          "$BINARY" query wasm contract-state all "$CVM_OUTPOST_CONTRACT_ADDRESS" --chain-id="$CHAIN_ID"  --node="tcp://localhost:$CONSENSUS_RPC_PORT" --output=json | jq .
         '';
       };
       osmosis-cvm-config = pkgs.writeShellApplication {
