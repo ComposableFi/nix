@@ -173,6 +173,7 @@
       log_location = "${log_directory}/mantis-solver-cvm.log";
       availability = {restart = "on_failure";};
       depends_on = {
+        "osmosis-pools-init".condition = "process_completed_successfully";
         "centauri-to-osmosis-transfer".condition = "process_completed_successfully";
         "osmosis-to-centauri-transfer".condition = "process_completed_successfully";
         "centauri-cvm-config".condition = "process_completed_successfully";
