@@ -8,8 +8,8 @@
     runtimeInputs,
     ...
   }: {
-    devShells = {
-      default = pkgs.mkShell {
+    devShells = rec {
+      devnet = pkgs.mkShell {
         buildInputs = runtimeInputs;
         shellHook = let
           networks = pkgs.networksLib.networks;
@@ -34,6 +34,9 @@
           echo 'node = "${pkgs.networksLib.networks.osmosis.devnet.NODE}"' >> ~/.osmosisd/config/client.toml
         '';
       };
+      mainent = pkgs.mkShell {
+
+      }; 
     };
   };
 }
