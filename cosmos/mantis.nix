@@ -58,7 +58,7 @@
           CVM_CONTRACT=$(cat "$CHAIN_DATA/CVM_OUTPOST_CONTRACT_ADDRESS")
           ${builtins.readFile ./mantis-solver-cvm.sh}
         '';
-      };      
+      };
     };
   };
 }

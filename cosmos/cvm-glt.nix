@@ -237,23 +237,23 @@ with builtins; {
         };
       }
       {
-       force_assets_venue = {
+        force_assets_venue = {
           venue_id = {
             exchange = "237684489387467420151587012609";
           };
           from_asset_id = "237684487542793012780631851009";
           to_asset_id = "237684487542793012780631851010";
-       }; 
+        };
       }
       {
-       force_assets_venue = {
+        force_assets_venue = {
           venue_id = {
             exchange = "237684489387467420151587012609";
           };
           from_asset_id = "237684487542793012780631851010";
           to_asset_id = "237684487542793012780631851009";
-       }; 
-      }      
+        };
+      }
     ];
   };
 }
